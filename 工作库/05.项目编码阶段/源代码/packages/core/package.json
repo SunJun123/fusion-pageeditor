@@ -1,0 +1,29 @@
+{
+  "name": "fusion-core",
+  "version": "0.0.1",
+  "main": "./src/index.ts",
+  "type": "module",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub",
+    "test": "vitest"
+  },
+  "keywords": [
+    "low-code",
+    "typescript",
+    "unbuild"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "@juggle/resize-observer": "^3.4.0",
+    "fusion-utils": "^0.0.1",
+    "requestidlecallback": "^0.3.0"
+  }
+}

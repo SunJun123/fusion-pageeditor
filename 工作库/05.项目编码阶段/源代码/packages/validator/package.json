@@ -1,0 +1,26 @@
+{
+  "name": "fusion-validator",
+  "version": "0.0.1",
+  "main": "lib",
+  "module": "esm",
+  "umd:main": "dist/fusion.validator.umd.production.js",
+  "unpkg": "dist/fusion.validator.umd.production.js",
+  "jsdelivr": "dist/fusion.validator.umd.production.js",
+  "jsnext:main": "esm",
+  "types": "esm/index.d.ts",
+  "engines": {
+    "npm": ">=3.0.0"
+  },
+  "scripts": {
+    "build": "rimraf -rf lib esm dist lib && npm run build:cjs && npm run build:esm && npm run build:umd",
+    "build:cjs": "tsc --project tsconfig.build.json",
+    "build:esm": "tsc --project tsconfig.build.json --module es2015 --outDir esm",
+    "build:umd": "rollup --config"
+  },
+  "dependencies": {
+    "fusion-utils": "0.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

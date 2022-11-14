@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "jsx": "preserve",
+    "module": "esnext",
+    "strict": true,
+    "target": "es2020",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
+    "types": ["vite/client"],
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "fusion-*": ["packages/*/src"]
+    }
+  },
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+  "exclude": ["node_modules","dist"],
+  "suppressImplicitAnyIndexErrors": true,
+  "isolatedModules": false
+}

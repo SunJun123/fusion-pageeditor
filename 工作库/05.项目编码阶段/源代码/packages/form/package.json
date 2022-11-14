@@ -1,0 +1,31 @@
+{
+  "name": "fusion-form",
+  "version": "0.0.1",
+  "main": "lib",
+  "module": "esm",
+  "umd:main": "dist/fusion.core.umd.production.js",
+  "unpkg": "dist/fusion.core.umd.production.js",
+  "jsdelivr": "dist/fusion.core.umd.production.js",
+  "jsnext:main": "esm",
+  "types": "esm/index.d.ts",
+  "engines": {
+    "npm": ">=3.0.0"
+  },
+  "scripts": {
+    "start": "dumi dev",
+    "build": "rimraf -rf lib esm dist && npm run build:cjs && npm run build:esm && npm run build:umd",
+    "build:cjs": "tsc --project tsconfig.build.json",
+    "build:esm": "tsc --project tsconfig.build.json --module es2015 --outDir esm",
+    "build:umd": "rollup --config"
+  },
+  "devDependencies": {
+  },
+  "dependencies": {
+    "fusion-utils": "0.0.1",
+    "fusion-reactive": "0.0.1",
+    "fusion-validator": "0.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

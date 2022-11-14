@@ -1,0 +1,148 @@
+@import '../../../variables.less';
+
+ .@{prefix-cls}-component-panel {
+  width: 334px;
+  height: 600px;
+  background: #ffffff;
+  border-radius: 9px 9px 9px 9px;
+  opacity: 1;
+  border: 1px solid var(--editor-border-color);
+  // position: fixed;
+  // z-index: 99;
+  // left: 48px;
+  // top: 54px;
+
+  &-title {
+    width: 100%;
+    height: 36px;
+    line-height: 36px;
+    font-size: 12px;
+    padding-left: 12px;
+    position: relative;
+
+    .icon-dankuangguanbi {
+      width: 12px;
+      height: 12px;
+      position: absolute;
+      right: 12px;
+      //   top: 12px;
+      font-size: 12px;
+    }
+  }
+  .el-divider--horizontal {
+    margin: 0 12px;
+    width: 310px;
+  }
+
+  &-search {
+    width: 100%;
+    height: 42px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    // margin-bottom: 12px;
+    .el-input {
+      height: 30px;
+      flex: 1;
+      align-items: center;
+      border-radius: 6px 6px 6px 6px;
+    }
+    .el-input__wrapper {
+      background: #f0f0f0;
+      border-color: #f0f0f0;
+      box-shadow: none;
+    }
+    .iconfont {
+      margin: 0 5px;
+      cursor: pointer;
+      color: #9c9c9c;
+      font-size: 14px;
+      &:hover {
+        color: var(--el-color-primary);
+      }
+    }
+  }
+
+  &-searchList {
+    margin-top: 12px;
+    .compItem {
+      width: 95px;
+      height: 80px;
+      margin-left: 12px;
+      margin-bottom: 12px;
+      float: left;
+
+      .compItem-icon {
+        width: 40px;
+        height: 40px;
+        background: #9c9c9c;
+        margin: 0 auto;
+        margin-bottom: 6px;
+      }
+
+      .compItem-title {
+        text-align: center;
+      }
+    }
+  }
+
+  &-list {
+    margin: 12px 12px 0 12px;
+    .el-collapse {
+      border: 0 !important;
+    }
+
+    .el-collapse-item__header {
+      border: 0 !important;
+    }
+
+    .el-collapse-item__wrap {
+      border: 0 !important;
+    }
+
+    .el-collapse-item__content{
+      padding-bottom: 6px;
+    }
+
+    .list-box{
+      width: 310px;
+      background: #F0F0F0;
+      border-radius: 6px 6px 6px 6px;
+      display: inline-block;
+      padding-top: 6px;
+
+      .compItem {
+        width: 95px;
+        height: 80px;
+        margin-left: 6px;
+        margin-bottom: 6px;
+        
+        float: left;
+  
+        .compItem-icon {
+          width: 40px;
+          height: 40px;
+          background: #9c9c9c;
+          margin: 0 auto;
+          margin-bottom: 6px;
+          margin-top: 12px;
+        }
+  
+        .compItem-title {
+          text-align: center;
+          font-size: 12px;
+          height: 12px;
+          line-height: 12px;
+        }
+      }
+
+      .compItem:hover{
+        background: #FFFFFF;
+      }
+
+      
+    }
+
+    
+  }
+}
