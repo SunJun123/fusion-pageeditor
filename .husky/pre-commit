@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+cd 工作库/05.项目编码阶段/源代码
+pnpm run lint-staged
