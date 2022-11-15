@@ -18,13 +18,11 @@
     "build:umd": "rollup --config"
   },
   "devDependencies": {
+    "tslib": "^2.4.1",
     "vue": "^3.2.38"
   },
   "dependencies": {
     "fusion-reactive": "0.0.1"
-  },
-  "peerDependencies": {
-    
   },
   "publishConfig": {
     "access": "public"

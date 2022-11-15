@@ -19,6 +19,7 @@
     "build:docs": "dumi build"
   },
   "devDependencies": {
+    "tslib": "^2.4.1"
   },
   "publishConfig": {
     "access": "public"

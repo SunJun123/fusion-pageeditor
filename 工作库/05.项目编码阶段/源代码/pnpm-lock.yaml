@@ -135,18 +135,26 @@ importers:
       fusion-validator: link:../validator
 
   packages/path:
-    specifiers: {}
+    specifiers:
+      tslib: ^2.4.1
+    devDependencies:
+      tslib: 2.4.1
 
   packages/reactive:
-    specifiers: {}
+    specifiers:
+      tslib: ^2.4.1
+    devDependencies:
+      tslib: 2.4.1
 
   packages/reactive-vue:
     specifiers:
       fusion-reactive: 0.0.1
+      tslib: ^2.4.1
       vue: ^3.2.38
     dependencies:
       fusion-reactive: link:../reactive
     devDependencies:
+      tslib: 2.4.1
       vue: 3.2.45
 
   packages/utils:
@@ -157,6 +165,7 @@ importers:
       no-case: ^3.0.4
       param-case: ^3.0.4
       pascal-case: ^3.1.1
+      tslib: ^2.4.1
       upper-case: ^2.0.1
     dependencies:
       camel-case: 4.1.2
@@ -166,12 +175,17 @@ importers:
       param-case: 3.0.4
       pascal-case: 3.1.2
       upper-case: 2.0.2
+    devDependencies:
+      tslib: 2.4.1
 
   packages/validator:
     specifiers:
       fusion-utils: 0.0.1
+      tslib: ^2.4.1
     dependencies:
       fusion-utils: link:../utils
+    devDependencies:
+      tslib: 2.4.1
 
   packages/vue:
     specifiers:
@@ -182,6 +196,7 @@ importers:
       fusion-reactive-vue: 0.0.1
       fusion-utils: 0.0.1
       fusion-validator: 0.0.1
+      tslib: ^2.4.1
       vue3: npm:vue@3
     dependencies:
       '@formily/json-schema': 2.1.4_typescript@4.7.4
@@ -192,6 +207,7 @@ importers:
       fusion-utils: link:../utils
       fusion-validator: link:../validator
     devDependencies:
+      tslib: 2.4.1
       vue3: /vue/3.2.45
 
 packages:
@@ -1245,14 +1261,13 @@ packages:
       '@vue/shared': 3.2.45
       csstype: 2.6.21
 
-  /@vue/server-renderer/3.2.45_vue@3.2.45:
+  /@vue/server-renderer/3.2.45:
     resolution: {integrity: sha512-ebiMq7q24WBU1D6uhPK//2OTR1iRIyxjF5iVq/1a5I1SDMDyDu4Ts6fJaMnjrvD3MqnaiFkKQj+LKAgz5WIK3g==}
     peerDependencies:
       vue: 3.2.45
     dependencies:
       '@vue/compiler-ssr': 3.2.45
       '@vue/shared': 3.2.45
-      vue: 3.2.45
 
   /@vue/shared/3.2.38:
     resolution: {integrity: sha512-dTyhTIRmGXBjxJE+skC8tTWCGLCVc4wQgRRLt8+O9p5ewBAjoBwtCAkLPrtToSr1xltoe3st21Pv953aOZ7alg==}
@@ -5932,7 +5947,7 @@ packages:
       '@vue/compiler-dom': 3.2.45
       '@vue/compiler-sfc': 3.2.45
       '@vue/runtime-dom': 3.2.45
-      '@vue/server-renderer': 3.2.45_vue@3.2.45
+      '@vue/server-renderer': 3.2.45
       '@vue/shared': 3.2.45
 
   /w3c-xmlserializer/3.0.0:
