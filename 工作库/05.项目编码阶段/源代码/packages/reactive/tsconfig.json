@@ -4,7 +4,7 @@
     "moduleResolution": "node",
     "jsx": "preserve",
     "module": "commonjs",
-    "target": "es5",
+    "target": "ESNext",
     "allowJs": false,
     "noUnusedLocals": false,
     "preserveConstEnums": true,
@@ -17,8 +17,7 @@
     "baseUrl": ".",
     "paths": {
       "fusion-*": ["packages/*/src"]
-    },
-    "lib": ["ESNext", "DOM"]
+    }
   },
   "include": ["./src/**/*.ts", "./src/**/*.tsx", "src/test.js", "src/test.js", "src/test.js", "src/test.js"],
   "exclude": ["./esm/*", "./lib/*"]

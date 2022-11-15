@@ -11,7 +11,10 @@
         @click="openTabContentPanel(item, $event)"
       >
         <div :class="prefixRef + '-tabs-pane-title'">
-          {{ item.title }}
+          <IconWidget
+            :tooltip="{content: item.title ,placement:direction === 'right' ? 'left' : 'right',}"
+            :infer="item.icon"
+          ></IconWidget>
         </div>
       </div>
     </div>

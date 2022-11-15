@@ -1,5 +1,5 @@
 import { Tracker } from 'fusion-reactive'
-import { getCurrentInstance, onBeforeUnmount } from "vue"
+import { getCurrentInstance, onBeforeUnmount } from 'vue'
 import { IObserverOptions } from '../types'
 
 /* istanbul ignore next */

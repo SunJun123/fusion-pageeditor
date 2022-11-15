@@ -24,6 +24,8 @@
   "dependencies": {
     "@juggle/resize-observer": "^3.4.0",
     "fusion-utils": "^0.0.1",
+    "fusion-path": "^0.0.1",
+    "vue": "^3.2.38",
     "requestidlecallback": "^0.3.0"
   }
 }

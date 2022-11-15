@@ -27,7 +27,8 @@ coverage
 *.sln
 *.sw?
 
-# build files
-esm
+# packages
+
 lib
-type-artefacts
+esm
+type-artefacts/

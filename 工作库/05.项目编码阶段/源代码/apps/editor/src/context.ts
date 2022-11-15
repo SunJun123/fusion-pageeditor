@@ -20,6 +20,6 @@ export const TreeNodeSymbol: InjectionKey<Ref<TreeNode>> =
 export const WorkspaceSymbol: InjectionKey<Ref<IWorkspaceContext>> =
   Symbol('WorkspaceSymbol')
 
-export function useContext<T>(key: InjectionKey<Ref<T>>) {
-  return inject(key, ref())
+export function useContext<T>(key: InjectionKey<Ref<T>>):Ref<T> {
+  return inject(key, ref()) as Ref<T>
 }

@@ -119,16 +119,11 @@ export interface IDesignerBehaviors {
   [key: string]: IBehaviorHost
 }
 
-export interface IDesignerStore<P> {
-  value: P
-}
-
 export type IDesignerIcons = Record<string, any>
 
-export type IDesignerIconsStore = IDesignerStore<IDesignerIcons>
-export type IDesignerLocaleStore = IDesignerStore<IDesignerLocales>
-export type IDesignerBehaviorStore = IDesignerStore<IBehavior[]>
-export type IDesignerLanguageStore = IDesignerStore<string>
+export type IDesignerIconsStore = IDesignerIcons
+export type IDesignerBehaviorStore = IBehavior[]
+export type IDesignerLanguageStore = string
 
 export type WorkbenchTypes =
   | 'DESIGNABLE'

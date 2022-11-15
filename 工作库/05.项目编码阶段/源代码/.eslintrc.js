@@ -24,7 +24,7 @@ module.exports = defineConfig({
 	],
 	overrides: [
 		{
-			files: ["*.vue"],
+			files: ["*.vue","*.tsx"],
 			parser: "vue-eslint-parser",
 			parserOptions: {
 				parser: "@typescript-eslint/parser",
@@ -33,6 +33,11 @@ module.exports = defineConfig({
 			},
 			rules: {
 				"vue/multi-word-component-names": "off",
+				"vue/require-default-prop": "off",
+				"comma-dangle": "off",
+				"vue/one-component-per-file": "off",
+				"no-unused-vars": "off",
+				"lines-around-comment": "off",
 			},
 		},
 		{
@@ -47,6 +52,7 @@ module.exports = defineConfig({
 				"no-constant-condition": "off",
 				"no-useless-escape": "off",
 				"no-prototype-builtins": "off",
+				"comma-dangle": "off",
 			},
 		}
 	],

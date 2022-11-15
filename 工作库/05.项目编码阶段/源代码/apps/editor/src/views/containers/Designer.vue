@@ -4,10 +4,11 @@
   </Layout>
 </template>
 <script lang="ts">
-import { Engine } from "fusion-core";
+import { Engine, GlobalRegistry } from "fusion-core";
 import { DesignerEngineSymbol } from "@/context";
 import { IDesignerProps } from "@/types";
 import Layout from "./Layout.vue";
+import * as icons from '@/assets/icons';
 import {
   defineComponent,
   onBeforeUnmount,
@@ -17,6 +18,7 @@ import {
   PropType,
   watchEffect
 } from "vue";
+GlobalRegistry.registerDesignerIcons(icons)
 export default defineComponent({
   name: "Designer",
   components: {

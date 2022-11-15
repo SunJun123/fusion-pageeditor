@@ -5,7 +5,7 @@
         <template #logo>
           <LogoWidget></LogoWidget>
         </template>
-        <SiderBarTabPanel #="soltProps">
+        <!-- <SiderBarTabPanel #="soltProps">
           <SiderBarPanel title="组件" icon="Component">
             <ResourceWidget
               v-if="soltProps?.activeKey == 0"
@@ -18,7 +18,18 @@
           <SiderBarPanel title="历史记录" icon="History">
             <div v-if="soltProps?.activeKey == 2">历史记录</div>
           </SiderBarPanel>
-        </SiderBarTabPanel>
+        </SiderBarTabPanel> -->
+        <CompositePanel>
+          <CompositePanelItem title="panels.Component" icon="Component">
+            <ResourceWidget
+              :component-category-list="materialList"
+            ></ResourceWidget>
+          </CompositePanelItem>
+          <CompositePanelItem title="panels.OutlinedTree" icon="Outline">
+          </CompositePanelItem>
+          <CompositePanelItem title="panels.History" icon="History">
+          </CompositePanelItem>
+        </CompositePanel>
         <WorkspacePanel :style="{ height: '100%' }">
           <ViewportPanel>
             <ViewPanel type="DESIGNABLE">
@@ -50,6 +61,7 @@ import SiderBarPanel from "./panels/SiderBarPanel.vue";
 import ComponentTreeWidget from "./widgets/ComponentTreeWidget/index.vue";
 import ResourceWidget from "./widgets/ResourceWidget/index.vue";
 import LogoWidget from "./widgets/LogoWidget/index.vue";
+import {CompositePanel,CompositePanelItem} from "./panels/CompositePanel"
 import { createDesigner, uid } from "fusion-core";
 import { defineComponent, Ref, ref } from "vue";
 import {Element} from "fusion-core"
@@ -63,11 +75,11 @@ export default defineComponent({
     Designer,
     Workbench,
     StudioPanel,
-    SiderBarTabPanel,
+    CompositePanel,
+    CompositePanelItem,
     WorkspacePanel,
     ViewportPanel,
     ViewPanel,
-    SiderBarPanel,
     ComponentTreeWidget,
     ResourceWidget,
     LogoWidget,
