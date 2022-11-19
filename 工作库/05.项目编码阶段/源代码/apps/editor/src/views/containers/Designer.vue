@@ -5,8 +5,7 @@
 </template>
 <script lang="ts">
 import { Engine, GlobalRegistry } from "fusion-core";
-import { DesignerEngineSymbol } from "@/context";
-import { IDesignerProps } from "@/types";
+import { DesignerEngineSymbol , IDesignerProps} from "fusion-renderer";
 import Layout from "./Layout.vue";
 import * as icons from '@/assets/icons';
 import {

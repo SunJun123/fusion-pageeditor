@@ -24,7 +24,7 @@ import { useTreeNodes } from "../hooks/useTreeNodes";
 export interface ITreeNode {
   id: string;
 
-  kind: NodeType;
+  //kind: NodeType;
   
   /** 名称 */
   name: string;
@@ -126,7 +126,7 @@ export class TreeNode implements ITreeNode {
 
   id: string;
 
-  kind: NodeType;
+  //kind: NodeType;
   
   depth = 0;
 
@@ -287,6 +287,10 @@ export class TreeNode implements ITreeNode {
     } else {
       return parent?.getParentByDepth(depth);
     }
+  }
+
+  getMessage(token: string) {
+    return this.name
   }
 
   isMyAncestor(node: TreeNode) {
@@ -675,14 +679,12 @@ export class TreeNode implements ITreeNode {
   clone(parent?: TreeNode) {
     const {
       name,
-      kind,
       sourceName,
       props,
     } = this;
     const newNode = new TreeNode(
       {
         id: uid(),
-        kind,
         name,
         sourceName,
         props,
@@ -735,14 +737,12 @@ export class TreeNode implements ITreeNode {
   serialize(): ITreeNode {
     const {
       id,
-      kind,
       name,
       sourceName,
       props,
     } = this;
     return {
       id,
-      kind,
       name,
       sourceName,
       props,

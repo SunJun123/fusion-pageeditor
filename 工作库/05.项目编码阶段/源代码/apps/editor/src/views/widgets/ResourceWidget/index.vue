@@ -55,7 +55,7 @@
 <script lang="ts" setup>
 import { IComponentCategoryListType } from "@/interface";
 import { PropType, ref, Ref } from "vue";
-import IconWidget from "../IconWidget/index.vue"
+import {IconWidget} from "fusion-renderer"
 
 const props = defineProps({
   componentCategoryList: {

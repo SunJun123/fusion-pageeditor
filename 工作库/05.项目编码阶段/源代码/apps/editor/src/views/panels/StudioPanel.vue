@@ -15,9 +15,8 @@ import Layout from '../containers/Layout.vue'
 import StudioHeaderPanel from './StudioHeaderPanel.vue'
 import StudioBodyPanel from './StudioBodyPanel.vue'
 import { defineComponent, PropType, StyleValue, unref } from 'vue'
-import { IDesignerLayoutProps } from '@/types'
+import { IDesignerLayoutProps,usePrefix } from 'fusion-renderer'
 import cls from "classnames";
-import { usePrefix } from '@/hooks'
 
 export interface IStudioPanelProps {
   style?: StyleValue

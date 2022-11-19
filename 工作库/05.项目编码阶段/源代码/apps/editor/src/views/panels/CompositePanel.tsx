@@ -1,9 +1,6 @@
 import { isValid } from 'fusion-core'
 import cls from 'classnames'
-import { TextWidget } from '../widgets/TextWidget'
-import { IconWidget } from '../widgets/IconWidget'
-import { usePrefix } from "@/hooks";
-import { composeExport } from '@/utils'
+import { TextWidget,IconWidget ,usePrefix} from 'fusion-renderer'
 import {
   defineComponent,
   ref,

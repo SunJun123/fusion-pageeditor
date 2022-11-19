@@ -4,7 +4,7 @@
   </Workspace>
 </template>
 <script lang="ts">
-import { useWorkbench } from "@/hooks/useWorkbench";
+import { useWorkbench } from "fusion-renderer";
 import Workspace from "./Workspace.vue"
 import {
   defineComponent

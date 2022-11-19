@@ -134,6 +134,7 @@ function deepmerge(target: any, source: any, options?: Options) {
   options.arrayMerge = options.arrayMerge || defaultArrayMerge
   options.isMergeableObject =
     options.isMergeableObject || defaultIsMergeableObject
+
   // cloneUnlessOtherwiseSpecified is added to `options` so that custom arrayMerge()
   // implementations can use it. The caller may not replace it.
   options.cloneUnlessOtherwiseSpecified = cloneUnlessOtherwiseSpecified
@@ -188,3 +189,10 @@ export const lazyMerge = <T extends object>(target: T, source: T): T => {
 }
 
 export const merge = deepmerge
+
+export function composeExport<T0 extends {}, T1 extends {}>(
+  s0: T0,
+  s1: T1
+): T0 & T1 {
+  return Object.assign(s0, s1);
+}

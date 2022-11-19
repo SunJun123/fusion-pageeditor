@@ -53,6 +53,10 @@ module.exports = defineConfig({
 				"no-useless-escape": "off",
 				"no-prototype-builtins": "off",
 				"comma-dangle": "off",
+				"vue/one-component-per-file": "off",
+				"vue/require-default-prop": "off",
+				"vue/require-prop-types": "off",
+				"lines-around-comment": "off",
 			},
 		}
 	],

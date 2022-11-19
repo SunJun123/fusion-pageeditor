@@ -12,12 +12,12 @@ import {
   computed,
   type PropType
 } from "vue";
-import { IDesignerLayoutProps } from "@/types";
 import {
   DesignerLayoutSymbol,
   IDesignerLayoutContext,
-  useContext
-} from "@/context";
+  useContext,
+  IDesignerLayoutProps
+} from "fusion-renderer";
 
 export default defineComponent({
   name: "Layout",

@@ -130,14 +130,12 @@ export class Element extends TreeNode {
   serialize(): ITreeNode {
     const {
       id,
-      kind,
       name,
       sourceName,
       props,
     } = this;
     return {
       id,
-      kind,
       name,
       sourceName,
       props,

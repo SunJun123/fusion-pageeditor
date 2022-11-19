@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "./type-artefacts",
     "paths": {
-      "@formily/*": ["packages/*"]
+      "fusion-*": ["packages/*"]
     },
     "declaration": true,
     "sourceMap": false,

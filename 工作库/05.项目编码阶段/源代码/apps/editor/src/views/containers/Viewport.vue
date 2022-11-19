@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import { usePrefix, useViewport } from "@/hooks";
+import { usePrefix, useViewport } from "fusion-renderer";
 import { Viewport as ViewportType, requestIdle } from "fusion-core";
 import cls from "classnames";
 import { defineComponent, onBeforeUnmount, onMounted, ref } from "vue";

@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { useWorkbench } from "@/hooks";
+import { useWorkbench } from "fusion-renderer";
 import Viewport from "../containers/Viewport.vue";
 import { defineComponent } from "vue";
 export default defineComponent({

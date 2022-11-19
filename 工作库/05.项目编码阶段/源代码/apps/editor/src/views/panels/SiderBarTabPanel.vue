@@ -54,7 +54,7 @@
   </div>
 </template>
 <script lang="ts">
-import { usePrefix } from "@/hooks";
+import { usePrefix } from "fusion-renderer";
 import cls from "classnames";
 import { isValid } from "fusion-core";
 import { computed, defineComponent, Ref, ref, VNode, watch,h} from "vue";

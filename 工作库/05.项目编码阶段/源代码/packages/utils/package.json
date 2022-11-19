@@ -21,8 +21,8 @@
     "build:umd": "rollup --config"
   },
   "dependencies": {
+    "fusion-path": "^0.0.1",
     "camel-case": "^4.1.1",
-    "fusion-path": "0.0.1",
     "lower-case": "^2.0.1",
     "no-case": "^3.0.4",
     "param-case": "^3.0.4",

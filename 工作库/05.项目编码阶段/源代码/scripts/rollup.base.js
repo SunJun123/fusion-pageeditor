@@ -1,6 +1,5 @@
-import path from 'path'
-import typescript from 'rollup-plugin-typescript2'
-import resolve from 'rollup-plugin-node-resolve'
+import typescript from 'rollup-plugin-typescript'
+import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import externalGlobals from 'rollup-plugin-external-globals'
 import injectProcessEnv from 'rollup-plugin-inject-process-env'
@@ -16,17 +15,11 @@ const presets = () => {
     'fusion.validator': 'Fusion.Validator',
     'fusion.reactive': 'Fusion.Reactive',
     'fusion.form': 'Fusion.Form',
+    'fusion.components': 'Fusion.Components',
+    'fusion.renderer': 'Fusion.Renderer',
   }
   return [
-    typescript({
-      tsconfig: './tsconfig.build.json',
-      tsconfigOverride: {
-        compilerOptions: {
-          module: 'ESNext',
-          declaration: false,
-        },
-      },
-    }),
+    typescript({module: 'ESNext',}),
     resolve(),
     commonjs(),
     externalGlobals(externals, {
@@ -47,28 +40,16 @@ const createEnvPlugin = (env) => {
   )
 }
 
-const inputFilePath = path.join(process.cwd(), 'src/index.ts')
-
 const noUIDtsPackages = [
   'fusion.core',
   'fusion.path',
   'fusion.utils',
   'fusion.validator',
   'fusion.reactive',
-  'fusion.form'
+  'fusion.form',
+  'fusion.componnets',
+  'fusion.renderer'
 ]
-
-export const removeImportStyleFromInputFilePlugin = () => ({
-  name: 'remove-import-style-from-input-file',
-  transform(code, id) {
-    // 样式由 build:style 进行打包，所以要删除入口文件上的 `import './style'`
-    if (inputFilePath === id) {
-      return code.replace(`import './style';`, '')
-    }
-
-    return code
-  },
-})
 
 export default (filename, targetName, ...plugins) => {
   const base = [
@@ -83,7 +64,6 @@ export default (filename, targetName, ...plugins) => {
           id: filename,
         },
       },
-      external: ['vue'],
       plugins: [...presets(), ...plugins, createEnvPlugin('development')],
     },
     {
@@ -97,7 +77,6 @@ export default (filename, targetName, ...plugins) => {
           id: filename,
         },
       },
-      external: ['vue'],
       plugins: [
         ...presets(),
         terser(),
@@ -114,7 +93,7 @@ export default (filename, targetName, ...plugins) => {
         format: 'es',
         file: `dist/${filename}.d.ts`,
       },
-      plugins: [dts(), ...plugins],
+      plugins: [dts(),...plugins],
     })
     base.push({
       input: 'esm/index.d.ts',
@@ -125,8 +104,7 @@ export default (filename, targetName, ...plugins) => {
       plugins: [
         dts({
           respectExternal: true,
-        }),
-        ...plugins
+        }),...plugins
       ],
     })
   }

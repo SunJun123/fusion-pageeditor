@@ -7,7 +7,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { ScreenType } from 'fusion-core'
-import { useScreen } from '@/hooks'
+import { useScreen } from 'fusion-renderer'
 import PCSimulator from "../simulators/PCSimulator/index.vue"
 export type ISimulatorProps = HTMLDivElement & any
 export default defineComponent({

@@ -5,7 +5,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
-import { usePrefix } from "@/hooks";
+import { usePrefix } from "fusion-renderer";
 
 export default defineComponent({
   components: {

@@ -7,7 +7,7 @@ import {
   deleteInByDestructor,
   existInByDestructor
 } from './destructor'
-import { Segments, Node, Pattern } from './types'
+import type { Pattern, Segments, Node } from './types'
 import { Matcher } from './matcher'
 
 const pathCache = new Map()

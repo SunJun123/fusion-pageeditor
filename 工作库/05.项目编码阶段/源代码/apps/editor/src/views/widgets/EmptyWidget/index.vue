@@ -29,10 +29,10 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useTree, usePrefix } from "@/hooks";
-import IconWidget from "../IconWidget/index.vue";
+import { usePrefix, IconWidget } from "fusion-renderer";
 import "./styles.less";
 import { isComment } from "element-plus/es/utils/index";
+import { useTree } from "fusion-renderer";
 export interface IEmptyWidgetProps {
   dragTipsDirection?: "left" | "right";
 }

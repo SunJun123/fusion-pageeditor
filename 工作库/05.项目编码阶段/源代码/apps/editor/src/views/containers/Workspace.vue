@@ -2,8 +2,7 @@
   <slot></slot>
 </template>
 <script lang="ts">
-import { WorkspaceSymbol } from "@/context";
-import { useDesigner } from "@/hooks/useDesigner";
+import { WorkspaceSymbol,useDesigner } from "fusion-renderer";
 import {
   defineComponent, provide, ref, unref
 } from "vue";

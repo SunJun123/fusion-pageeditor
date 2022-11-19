@@ -96,7 +96,7 @@ export function map(val: any, iterator: any, revert?: any): any {
     (item, key) => {
       const value = iterator(item, key)
       if (isArr(res)) {
-        ;(res as any).push(value)
+        (res as any).push(value)
       } else {
         res[key] = value
       }

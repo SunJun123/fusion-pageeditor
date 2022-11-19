@@ -8,7 +8,7 @@
 <script lang="ts">
 import cls from "classnames";
 import { defineComponent, unref } from "vue";
-import { usePosition, usePrefix } from "@/hooks";
+import { usePosition, usePrefix } from "fusion-renderer";
 
 export default defineComponent({
   setup() {

@@ -8,7 +8,7 @@
 import './styles.less'
 import cls from 'classnames'
 import { defineComponent } from 'vue'
-import { usePrefix } from '@/hooks'
+import { usePrefix } from 'fusion-renderer'
 
 export default defineComponent({
   props: {

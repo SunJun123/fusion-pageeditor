@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { useTree } from "@/hooks";
+import { useTree } from "fusion-renderer";
 import { IElement } from "fusion-core";
 import { defineComponent, PropType } from "vue";
 

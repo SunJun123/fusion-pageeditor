@@ -28,6 +28,7 @@
           <CompositePanelItem title="panels.OutlinedTree" icon="Outline">
           </CompositePanelItem>
           <CompositePanelItem title="panels.History" icon="History">
+            <HistoryWidget></HistoryWidget>
           </CompositePanelItem>
         </CompositePanel>
         <WorkspacePanel :style="{ height: '100%' }">
@@ -58,10 +59,11 @@ import WorkspacePanel from "./panels/WorkspacePanel.vue";
 import ViewportPanel from "./panels/ViewportPanel.vue";
 import ViewPanel from "./panels/ViewPanel.vue";
 import SiderBarPanel from "./panels/SiderBarPanel.vue";
-import ComponentTreeWidget from "./widgets/ComponentTreeWidget/index.vue";
+import {ComponentTreeWidget} from "./widgets/ComponentTreeWidget";
 import ResourceWidget from "./widgets/ResourceWidget/index.vue";
 import LogoWidget from "./widgets/LogoWidget/index.vue";
 import {CompositePanel,CompositePanelItem} from "./panels/CompositePanel"
+import {HistoryWidget} from "./widgets/HistoryWidget"
 import { createDesigner, uid } from "fusion-core";
 import { defineComponent, Ref, ref } from "vue";
 import {Element} from "fusion-core"
@@ -83,6 +85,7 @@ export default defineComponent({
     ComponentTreeWidget,
     ResourceWidget,
     LogoWidget,
+    HistoryWidget,
   },
   setup() {
     const engine = createDesigner({

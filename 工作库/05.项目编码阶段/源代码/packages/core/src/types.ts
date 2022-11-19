@@ -7,7 +7,8 @@ import {
   Viewport,
   Workbench,
   Workspace,
-  TreeNode
+  TreeNode,
+  NodeType
 } from './models'
 import { Element, IElement, IPage } from './interface/project'
 export type IEngineProps<T = Event> = IEventProps<T> & {
@@ -168,6 +169,7 @@ export interface IResourceHost {
 }
 
 export type IResourceLike = IResource[] | IResourceHost
+
 export interface IResourceCreator {
   title?: string | IDesignerMiniLocales
   description?: string | IDesignerMiniLocales
