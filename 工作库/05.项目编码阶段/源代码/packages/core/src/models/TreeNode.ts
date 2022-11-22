@@ -16,10 +16,12 @@ import {
 } from "../events";
 import {
   IDesignerControllerProps,
+  IDesignerLocales,
   IDesignerProps,
 } from "../types";
 import { GlobalRegistry } from "../registry";
 import { useTreeNodes } from "../hooks/useTreeNodes";
+import { mergeLocales } from "../internals";
 
 export interface ITreeNode {
   id: string;
@@ -28,6 +30,8 @@ export interface ITreeNode {
   
   /** 名称 */
   name: string;
+
+  hidden?: boolean
 
   /** 元素的属性 */
   props: Record<string | number | symbol, any>;
@@ -129,6 +133,8 @@ export class TreeNode implements ITreeNode {
   //kind: NodeType;
   
   depth = 0;
+  
+  hidden = false
 
   name = "NO_NAME_COMPONENT";
 
@@ -145,6 +151,7 @@ export class TreeNode implements ITreeNode {
       return node;
     }
     this.id = node?.id || uid();
+    this.name = node.name;
     if (parent) {
       this.parent = parent;
       this.depth = parent.depth + 1;
@@ -156,10 +163,12 @@ export class TreeNode implements ITreeNode {
       this.isSelfSourceNode = node?.isSourceNode || false;
       TreeNodes.set(this.id.toString(), this);
     }
-    
+    if (node) {
+      this.from(node)
+    }
   }
 
-  get designerProps(): IDesignerProps {
+/*   get designerProps(): IDesignerProps {
     
     return {
       "draggable": true,
@@ -171,6 +180,29 @@ export class TreeNode implements ITreeNode {
           "wrapperCol": 12
       }
   };
+  } */
+
+  get designerProps(): IDesignerProps {
+    const behaviors = GlobalRegistry.getDesignerBehaviors(this)
+    const designerProps: IDesignerProps = behaviors.reduce((buf, pattern) => {
+      if (!pattern.designerProps) return buf
+      Object.assign(buf, resolveDesignerProps(this, pattern.designerProps))
+      return buf
+    }, {})
+    return designerProps
+  }
+
+  get designerLocales(): IDesignerLocales {
+    const behaviors = GlobalRegistry.getDesignerBehaviors(this)
+    const designerLocales: IDesignerLocales = behaviors.reduce(
+      (buf, pattern) => {
+        if (!pattern.designerLocales) return buf
+        mergeLocales(buf, pattern.designerLocales)
+        return buf
+      },
+      {}
+    )
+    return designerLocales
   }
 
   get previous() {
@@ -517,9 +549,7 @@ export class TreeNode implements ITreeNode {
   append(...nodes: TreeNode[]) {
     if (nodes.some((node) => node.contains(this))) return [];
     const originSourceParents = nodes.map((node) => node.parent);
-    console.log(nodes)
     const newNodes = this.resetNodesParent(nodes, this);
-    console.log(newNodes)
     if (!newNodes.length) return [];
     return this.triggerMutation(
       new AppendNodeEvent({
@@ -529,7 +559,6 @@ export class TreeNode implements ITreeNode {
       }),
       () => {
         this.children = this.children.concat(newNodes);
-        console.log(this)
         return newNodes;
       },
       []

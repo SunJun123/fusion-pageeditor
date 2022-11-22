@@ -2,12 +2,12 @@
   "name": "fusion-components",
   "version": "0.0.1",
   "license": "MIT",
-  "main": "src/index.ts",
-  "types": "module",
+  "main": "./src/index.ts",
+  "type": "module",
+  "module": "./src/index.ts",
   "engines": {
     "npm": ">=3.0.0"
   },
-  "module": "module",
   "scripts": {
     "clean": "rimraf -rf lib esm dist",
     "create:style": "ts-node create-style",

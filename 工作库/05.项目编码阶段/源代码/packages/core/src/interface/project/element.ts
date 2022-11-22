@@ -1,6 +1,7 @@
-import { FromNodeEvent, ITreeNode, TreeNode } from "../..";
+import { ITreeNode, TreeNode } from "../../models/TreeNode";
 import { useTreeNodes } from "../../hooks/useTreeNodes";
 import {ITreeNodeMethodParam} from "./projectParam";
+import { FromNodeEvent } from "../../events/mutation/FromNodeEvent";
 export interface EventsMethods {
 
   // 名称

@@ -1,7 +1,10 @@
 <template>
   <div ref="refInstance" :class="cls(prefixRef)" :style="viewportStyle">
     <slot></slot>
-    <EmptyWidget></EmptyWidget>
+    <AuxToolWidget></AuxToolWidget>
+    <EmptyWidget :drag-tips-direction="dragTipsDirection">
+      {{ placeholder }}
+    </EmptyWidget>
   </div>
 </template>
 
@@ -10,12 +13,14 @@ import { usePrefix, useViewport } from "fusion-renderer";
 import { Viewport as ViewportType, requestIdle } from "fusion-core";
 import cls from "classnames";
 import { defineComponent, onBeforeUnmount, onMounted, ref } from "vue";
-import EmptyWidget from "../widgets/EmptyWidget/index.vue";
+import {EmptyWidget} from "../widgets/EmptyWidget";
+import {AuxToolWidget} from "../widgets/AuxToolWidget";
 import { useStyle } from "@/utils";
 
 export default defineComponent({
   components: {
     EmptyWidget,
+    AuxToolWidget,
   },
   props: {
     placeholder: {
@@ -69,7 +74,6 @@ export default defineComponent({
     });
 
     let style = useStyle();
-    console.log(style);
     const viewportStyle = Object.assign(
       { ...style },
       {

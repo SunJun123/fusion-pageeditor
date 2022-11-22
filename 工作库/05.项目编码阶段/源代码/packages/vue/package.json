@@ -1,13 +1,9 @@
 {
   "name": "fusion-vue",
   "version": "0.0.1",
-  "main": "lib",
-  "module": "esm",
-  "umd:main": "dist/fusion.vue.umd.production.js",
-  "unpkg": "dist/fusion.vue.umd.production.js",
-  "jsdelivr": "dist/fusion.vue.umd.production.js",
-  "jsnext:main": "esm",
-  "types": "type-artefacts/cur/index.d.ts",
+  "main": "./src/index.ts",
+  "type": "module",
+  "module": "./src/index.ts",
   "engines": {
     "npm": ">=3.0.0"
   },

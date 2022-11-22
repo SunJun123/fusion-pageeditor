@@ -33,3 +33,5 @@ export interface Subscription<S> {
   notify?: (payload: S) => void | boolean
   filter?: (payload: S) => any
 }
+export const isValidNumber = (val: any): val is number =>
+  !isNaN(val) && isNum(val)

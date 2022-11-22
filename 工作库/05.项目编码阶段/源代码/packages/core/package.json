@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "main": "./src/index.ts",
   "type": "module",
+  "module": "./src/index.ts",
   "sideEffects": false,
   "publishConfig": {
     "access": "public"

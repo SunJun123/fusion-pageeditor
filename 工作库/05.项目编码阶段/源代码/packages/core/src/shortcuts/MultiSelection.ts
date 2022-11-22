@@ -1,5 +1,5 @@
-import { KeyCode, Shortcut } from '../models'
-
+import { KeyCode } from '../models'
+import { Shortcut } from '../models/Shortcut'
 export const SelectNodes = new Shortcut({
   codes: [[KeyCode.Meta], [KeyCode.Control]],
 })

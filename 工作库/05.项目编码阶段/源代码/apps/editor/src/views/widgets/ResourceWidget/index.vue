@@ -26,7 +26,7 @@
             <template #reference>
               <div :key="component?.id" :data-designer-source-id="component?.id" class="compItem">
                 <div class="compItem-icon">
-                  <IconWidget :icon="component.icon"></IconWidget>
+                  <IconWidget :class="prefixRef + '-item-icon'" :infer="component?.icon" :style="{ width: '150px', height: '40px' }"></IconWidget>
                 </div>
                 <div class="compItem-title">
                   {{ component.name }}
@@ -53,14 +53,13 @@
 </template>
 
 <script lang="ts" setup>
-import { IComponentCategoryListType } from "@/interface";
 import { PropType, ref, Ref } from "vue";
-import {IconWidget} from "fusion-renderer"
-
+import {IconWidget,usePrefix} from "fusion-renderer"
+const prefixRef = usePrefix('resource')
 const props = defineProps({
   componentCategoryList: {
-    type: Object as PropType<IComponentCategoryListType[]> ,
-    default: ():Ref<IComponentCategoryListType[]> => ref([]),
+    type: Object as PropType<any[]> ,
+    default: ():Ref<any[]> => ref([]),
   },
 })
 </script>

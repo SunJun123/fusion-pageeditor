@@ -1,9 +1,10 @@
 import { useTree, usePrefix, useDesigner, useComponents,TreeNodeSymbol, DesignerComponentsSymbol,IDesignerComponents } from 'fusion-renderer'
-import { TreeNode, GlobalRegistry } from 'fusion-core'
+import { TreeNode, GlobalRegistry, ITreeNode } from 'fusion-core'
 import { observer } from 'fusion-reactive-vue'
 import cls from 'classnames'
+import {treeJson} from "./formData.js"
 import './styles.less'
-import { defineComponent, PropType, provide, VNode, toRef } from 'vue'
+import { defineComponent, PropType, provide, VNode, toRef, watch,Component } from 'vue'
 import { composeExport } from 'fusion-utils'
 
 export interface IComponentTreeWidgetProps {
@@ -22,17 +23,15 @@ export const TreeNodeWidgetComponent =
       node: Object as PropType<TreeNode>,
     },
     setup(props) {
-      const designerRef = useDesigner(props.node?.designerProps?.effects)
+      const designerRef = useDesigner()
       const componentsRef = useComponents()
 
       provide(TreeNodeSymbol, toRef(props, 'node'))
 
       return () => {
         const node = props.node!
-
         // default slot
         const renderChildren = () => {
-          if (node?.designerProps?.selfRenderChildren) return []
           return node?.children?.filter(child => {
             const slot = child.props?.['x-slot']
             return !slot || slot === 'default'
@@ -40,7 +39,6 @@ export const TreeNodeWidgetComponent =
             return <TreeNodeWidget {...{ node: child }} key={child.id} />
           })
         }
-
         // 支持 x-slot
         const renderSlots = () => {
           if (node?.designerProps?.selfRenderChildren) return []
@@ -64,17 +62,14 @@ export const TreeNodeWidgetComponent =
             ...node.props,
             ...node.designerProps?.getComponentProps?.(node),
           }
-          if (node.depth === 0) {
-            delete props.style
-          }
           return props
         }
 
         const renderComponent = () => {
-          const componentName = node.componentName
+          const componentName = node.name
           const Component = componentsRef.value?.[componentName]
-
-          const dataId = {}
+          console.log(componentName,Component)
+          const dataId = {Component}
           if (Component) {
             if (designerRef.value) {
               dataId[designerRef.value?.props?.nodeIdAttrName] = node.id
@@ -92,7 +87,6 @@ export const TreeNodeWidgetComponent =
           }
         }
         if (!node) return null
-        if (node.hidden) return null
         return renderComponent()
       }
     },
@@ -101,16 +95,15 @@ export const TreeNodeWidgetComponent =
 export const TreeNodeWidget = observer(TreeNodeWidgetComponent)
 
 export const ComponentTreeWidgetComponent =
-  observer(
-    defineComponent({
+observer(defineComponent({
       name: 'DnComponentTreeWidget',
       props: { components: [Object] },
       setup(props) {
         const treeRef = useTree()
         const prefixRef = usePrefix('component-tree')
         const designerRef = useDesigner()
-
-        //GlobalRegistry.registerDesignerBehaviors(props.components!)
+        designerRef.value.setCurrentTree(treeJson)
+        GlobalRegistry.registerDesignerBehaviors(props.components!)
         provide(DesignerComponentsSymbol, toRef(props, 'components'))
 
         return () => {
@@ -120,13 +113,12 @@ export const ComponentTreeWidgetComponent =
           }
           return (
             <div class={cls(prefixRef.value)} {...dataId}>
-              <TreeNodeWidget {...{ node: treeRef.value }} />
+             <TreeNodeWidget {...{ node: treeRef.value }} />
             </div>
           )
         }
       },
-    })
-  )
+    }))
 
 export const ComponentTreeWidget = composeExport(ComponentTreeWidgetComponent, {
   displayName: 'ComponentTreeWidget',

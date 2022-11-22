@@ -71,7 +71,6 @@ export const CompositePanel =
     setup(props, { slots }) {
       // : VueComponent<ICompositePanelProps>
       const prefixRef = usePrefix('composite-panel')
-console.log(prefixRef)
       const children = slots.default?.()
 
       const activeKey = ref(

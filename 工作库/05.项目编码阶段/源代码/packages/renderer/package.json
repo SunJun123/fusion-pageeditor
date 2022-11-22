@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "license": "MIT",
   "main": "src/index.ts",
-  "types": "module",
+  "type": "module",
   "engines": {
     "npm": ">=3.0.0"
   },

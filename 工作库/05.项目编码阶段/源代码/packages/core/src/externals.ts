@@ -1,4 +1,4 @@
-import { Engine, NodeType, TreeNode } from './models'
+import { Engine, TreeNode } from './models'
 import { DEFAULT_DRIVERS, DEFAULT_EFFECTS, DEFAULT_SHORTCUTS } from './presets'
 import {
   IBehavior,
@@ -58,7 +58,7 @@ export const createBehavior = (
 }
 
 export const createResource = (...sources: IResourceCreator[]): IResource[] => {
-  return sources.reduce((buf, source) => {
+  const newSources = sources.reduce((buf, source) => {
     return buf.concat({
       ...source,
       node: new TreeNode({
@@ -70,6 +70,8 @@ export const createResource = (...sources: IResourceCreator[]): IResource[] => {
       }),
     })
   }, [])
+  console.log(newSources)
+  return newSources
 }
 export const createDesigner = (props: IEngineProps<Engine> = {}) => {
   const drivers = props.drivers || []

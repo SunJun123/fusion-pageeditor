@@ -10,7 +10,7 @@ import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import '@/locales'
 import { GlobalRegistry } from "fusion-core";
 
-console.log(GlobalRegistry.registerDesignerLocales())
+GlobalRegistry.registerDesignerLocales()
 app.use(ElementPlus, {
     locale: zhCn,
 });

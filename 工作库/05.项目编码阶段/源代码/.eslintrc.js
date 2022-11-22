@@ -12,6 +12,9 @@ module.exports = defineConfig({
 		// The Follow config only works with eslint-plugin-vue v8.0.0+
 		"vue/setup-compiler-macros": true,
 	},
+	globals: {
+      NodeJS: "readonly",
+	},
 	parser: "@typescript-eslint/parser",
 	parserOptions: {
 		sourceType: "module",
@@ -38,6 +41,7 @@ module.exports = defineConfig({
 				"vue/one-component-per-file": "off",
 				"no-unused-vars": "off",
 				"lines-around-comment": "off",
+				"vue/require-prop-types": "off",
 			},
 		},
 		{

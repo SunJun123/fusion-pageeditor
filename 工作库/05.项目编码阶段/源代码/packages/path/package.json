@@ -1,12 +1,9 @@
 {
   "name": "fusion-path",
   "version": "0.0.1",
-  "main": "lib",
-  "module": "esm",
-  "umd:main": "dist/fusion.path.umd.production.js",
-  "unpkg": "dist/fusion.path.umd.production.js",
-  "jsdelivr": "dist/fusion.path.umd.production.js",
-  "jsnext:main": "esm",
+  "main": "./src/index.ts",
+  "type": "module",
+  "module": "./src/index.ts",
   "engines": {
     "npm": ">=3.0.0"
   },

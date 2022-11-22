@@ -1,13 +1,9 @@
 {
   "name": "fusion-reactive-vue",
   "version": "0.0.1",
-  "main": "lib",
-  "module": "esm",
-  "umd:main": "dist/fusion.reactive-vue.umd.production.js",
-  "unpkg": "dist/fusion.reactive-vue.umd.production.js",
-  "jsdelivr": "dist/fusion.reactive-vue.umd.production.js",
-  "jsnext:main": "esm",
-  "types": "esm/index.d.ts",
+  "main": "./src/index.ts",
+  "type": "module",
+  "module": "./src/index.ts",
   "engines": {
     "npm": ">=3.0.0"
   },

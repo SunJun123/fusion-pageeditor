@@ -36,7 +36,6 @@ export const useDragDropEffect = (engine: Engine) => {
     engine.workbench.eachWorkspace((currentWorkspace) => {
       const operation = currentWorkspace.operation
       const moveHelper = operation.moveHelper
-      console.log(nodeId)
       if (nodeId || outlineId || handlerId) {
         const node = engine.findNodeById(outlineId || nodeId || handlerId)
         if (node) {
@@ -132,7 +131,6 @@ export const useDragDropEffect = (engine: Engine) => {
       const closestNode = moveHelper.closestNode
       const closestDirection = moveHelper.closestDirection
       const selection = operation.selection
-      console.info(closestDirection,dragNodes.length)
       if (!dragNodes.length) return
       if (dragNodes.length && closestNode && closestDirection) {
         if (

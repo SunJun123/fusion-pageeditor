@@ -176,7 +176,7 @@ export interface IResourceCreator {
   icon?: any
   thumb?: string
   span?: number
-  elements?: IElement[]
+  elements?: ITreeNode[]
 }
 
 export interface IDesignerLayoutProps {

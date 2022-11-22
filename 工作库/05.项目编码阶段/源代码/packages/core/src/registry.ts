@@ -2,7 +2,9 @@ import { reactive, ref } from "vue";
 import { getBrowserLanguage, lowerSnake, mergeLocales } from "./internals";
 import { Path } from 'fusion-path'
 import { each } from 'fusion-utils'
-import { IDesignerLanguageStore, IDesignerLocales } from "./types";
+import { IBehavior, IDesignerBehaviors, IDesignerBehaviorStore, IDesignerLanguageStore, IDesignerLocales } from "./types";
+import { isBehaviorHost } from "./externals";
+import { TreeNode } from "./models";
 
 export type IDesignerIcons = Record<string, any>;
 export interface IDesignerMiniLocales {
@@ -22,13 +24,48 @@ const getISOCode = (language: string) => {
   })
   return isoCode
 }
+const reSortBehaviors = (target: IBehavior[], sources: IDesignerBehaviors) => {
+  const findTargetBehavior = (behavior: IBehavior) => target.includes(behavior)
+  const findSourceBehavior = (name: string) => {
+    for (let key in sources) {
+      const { Behavior } = sources[key]
+      for (let i = 0; i < Behavior.length; i++) {
+        if (Behavior[i].name === name) return Behavior[i]
+      }
+    }
+  }
+  each(sources, (item) => {
+    if (!item) return
+    if (!isBehaviorHost(item)) return
+    const { Behavior } = item
+    each(Behavior, (behavior) => {
+      if (findTargetBehavior(behavior)) return
+      const name = behavior.name
+      each(behavior.extends, (dep) => {
+        const behavior = findSourceBehavior(dep)
+        if (!behavior)
+          throw new Error(`No ${dep} behavior that ${name} depends on`)
+        if (!findTargetBehavior(behavior)) {
+          target.unshift(behavior)
+        }
+      })
+      target.push(behavior)
+    })
+  })
+}
 export type IDesignerIconsStore = IDesignerIcons;
+let DESIGNER_BEHAVIORS_STORE: IDesignerBehaviorStore = []
 const DESIGNER_ICONS_STORE: IDesignerIconsStore = {};
 const DESIGNER_LOCALES_STORE = {}
 let DESIGNER_LANGUAGE_STORE: IDesignerLanguageStore = getBrowserLanguage()
 const DESIGNER_GLOBAL_REGISTRY = {
   setDesignerLanguage: (lang: string) => {
     DESIGNER_LANGUAGE_STORE = lang
+  },
+  getDesignerBehaviors: (node: TreeNode) => {
+    return DESIGNER_BEHAVIORS_STORE.filter((pattern) =>
+      pattern.selector(node)
+    )
   },
   getDesignerIcon: (name: string) => {
     return DESIGNER_ICONS_STORE[name];
@@ -58,6 +95,15 @@ const DESIGNER_GLOBAL_REGISTRY = {
       return
     }
     return Path.getIn(locale, lowerSnake(token))
+  },
+  registerDesignerBehaviors: (...packages: IDesignerBehaviors[]) => {
+    const results: IBehavior[] = []
+    packages.forEach((sources) => {
+      reSortBehaviors(results, sources)
+    })
+    if (results.length) {
+      DESIGNER_BEHAVIORS_STORE = results
+    }
   },
 };
 

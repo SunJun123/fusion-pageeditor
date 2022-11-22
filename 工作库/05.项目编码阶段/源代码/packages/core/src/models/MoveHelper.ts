@@ -268,10 +268,8 @@ export class MoveHelper {
 
   dragStart(props: IMoveHelperDragStartProps) {
     const nodes = TreeNode.filterDraggable(props?.dragNodes)
-    console.log(this.dragNodes)
     if (nodes.length) {
       this.dragNodes = nodes
-      console.log(this.dragNodes)
       this.trigger(
         new DragNodeEvent({
           target: this.operation.tree,

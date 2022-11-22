@@ -11,7 +11,6 @@ export function define<Target extends object = any>(
   target: Target,
   annotations?: Annotations<Target>
 ): Target {
-  debugger
   if (isObservable(target)) return target
   if (!isSupportObservable(target)) return target
   buildDataTree(undefined, undefined, target)

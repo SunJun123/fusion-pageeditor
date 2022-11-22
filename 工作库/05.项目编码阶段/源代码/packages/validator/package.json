@@ -1,13 +1,9 @@
 {
   "name": "fusion-validator",
   "version": "0.0.1",
-  "main": "lib",
-  "module": "esm",
-  "umd:main": "dist/fusion.validator.umd.production.js",
-  "unpkg": "dist/fusion.validator.umd.production.js",
-  "jsdelivr": "dist/fusion.validator.umd.production.js",
-  "jsnext:main": "esm",
-  "types": "esm/index.d.ts",
+  "main": "./src/index.ts",
+  "type": "module",
+  "module": "./src/index.ts",
   "engines": {
     "npm": ">=3.0.0"
   },

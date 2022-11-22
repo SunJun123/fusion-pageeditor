@@ -7,6 +7,7 @@ import { TransformHelper } from './TransformHelper'
 import { MoveHelper } from './MoveHelper'
 import { cancelIdle, ICustomEvent, isFn, requestIdle } from '../shared'
 import { IPage, Page } from '../interface/project'
+import { reactive, ref, Ref } from 'vue'
 
 export interface IOperation {
   tree?: IPage
@@ -35,11 +36,11 @@ export class Operation {
   constructor(workspace: Workspace) {
     this.engine = workspace.engine
     this.workspace = workspace
-    this.tree = new Page({
+    this.tree = reactive(new Page({
       name: this.engine.props.rootComponentName,
       ...this.engine.props.defaultComponentTree,
       operation: this,
-    })
+    }))
     this.hover = new Hover({
       operation: this,
     })
