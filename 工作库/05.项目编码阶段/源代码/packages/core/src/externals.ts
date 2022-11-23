@@ -12,6 +12,7 @@ import {
 } from './types'
 import { mergeLocales } from './internals'
 import { isArr, uid } from 'fusion-utils'
+import { shallowRef } from 'vue'
 
 export const isBehaviorHost = (val: any): val is IBehaviorHost =>
   val?.Behavior && isBehaviorList(val.Behavior)
@@ -66,11 +67,10 @@ export const createResource = (...sources: IResourceCreator[]): IResource[] => {
         props: {},
         name: '$$ResourceNode$$',
         isSourceNode: true,
-        children: source.elements || [],
+        children: shallowRef(source.elements || []),
       }),
     })
   }, [])
-  console.log(newSources)
   return newSources
 }
 export const createDesigner = (props: IEngineProps<Engine> = {}) => {

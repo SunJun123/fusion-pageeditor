@@ -1,13 +1,14 @@
 import { Operation } from './Operation'
 import { TreeNode } from './TreeNode'
 import { HoverNodeEvent } from '../events'
+import { shallowRef, ShallowRef } from 'vue'
 
 export interface IHoverProps {
   operation: Operation
 }
 
 export class Hover {
-  node: TreeNode = null
+  node = shallowRef(null) as ShallowRef<TreeNode>
   operation: Operation
   constructor(props?: IHoverProps) {
     this.operation = props?.operation
@@ -15,15 +16,15 @@ export class Hover {
 
   setHover(node?: TreeNode) {
     if (node) {
-      this.node = node
+      this.node.value = node
     } else {
-      this.node = null
+      this.node.value = null
     }
     this.trigger()
   }
 
   clear() {
-    this.node = null
+    this.node.value = null
   }
 
   trigger() {
@@ -31,7 +32,7 @@ export class Hover {
       return this.operation.dispatch(
         new HoverNodeEvent({
           target: this.operation.tree,
-          source: this.node,
+          source: this.node.value,
         })
       )
     }

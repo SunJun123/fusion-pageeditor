@@ -6,7 +6,7 @@ import { Selector } from './Selector'
 import { Copy } from './Copy'
 import { Delete } from './Delete'
 import { composeExport } from 'fusion-utils'
-import { computed, defineComponent, nextTick, ref, unref } from 'vue'
+import { defineComponent, nextTick, ref, unref, watchEffect } from 'vue'
 import { DragHandler } from './DragHandler'
 
 const HELPER_DEBOUNCE_TIMEOUT = 100
@@ -28,7 +28,7 @@ const HelpersComponent = defineComponent({
   name: 'Helpers',
   props: ['node', 'nodeRect'],
   emits: ['click'],
-  setup(props, { }) {
+  setup(props) {
     const prefixRef = usePrefix('aux-helpers')
     const designerRef = useDesigner()
     const viewportRef = useViewport()
@@ -37,7 +37,7 @@ const HelpersComponent = defineComponent({
 
     const position = ref('top-right')
 
-    useEffect(
+    watchEffect(
       () => {
         let request: NodeJS.Timeout
         const getYInViewport = (nodeRect: DOMRect, helpersRect: DOMRect) => {
@@ -87,23 +87,7 @@ const HelpersComponent = defineComponent({
         nextTick(() => {
           update()
         })
-
-        return reaction(
-          () => [
-            viewportRef.value.width,
-            viewportRef.value.height,
-            viewportRef.value.scrollX,
-            viewportRef.value.scrollY,
-            viewportRef.value.isScrollBottom,
-            viewportRef.value.isScrollTop,
-          ],
-          () => {
-            clearTimeout(request)
-            request = setTimeout(update, HELPER_DEBOUNCE_TIMEOUT)
-          }
-        )
-      },
-      () => [viewportRef.value, props.nodeRect]
+      }
     )
 
     return () => {

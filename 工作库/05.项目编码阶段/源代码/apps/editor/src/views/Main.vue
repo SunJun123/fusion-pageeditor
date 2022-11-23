@@ -67,7 +67,6 @@ import {
   Field,
   Input,
 } from 'fusion-renderer'
-console.log(Input)
 export default defineComponent({
   components: {
     Designer,

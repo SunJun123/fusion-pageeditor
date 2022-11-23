@@ -10,12 +10,12 @@ import { requestIdle } from '../shared'
 export const useCursorEffect = (engine: Engine) => {
   engine.subscribeTo(MouseMoveEvent, (event) => {
     engine.cursor.setStatus(
-      engine.cursor.status === CursorStatus.Dragging ||
-        engine.cursor.status === CursorStatus.DragStart
-        ? engine.cursor.status
+      engine.cursor.status.value === CursorStatus.Dragging ||
+        engine.cursor.status.value === CursorStatus.DragStart
+        ? engine.cursor.status.value
         : CursorStatus.Normal
     )
-    if (engine.cursor.status === CursorStatus.Dragging) return
+    if (engine.cursor.status.value === CursorStatus.Dragging) return
     engine.cursor.setPosition(event.data)
   })
   engine.subscribeTo(DragStartEvent, (event) => {
@@ -38,7 +38,7 @@ export const useCursorEffect = (engine: Engine) => {
     const currentWorkspace = event?.context?.workspace
     if (!currentWorkspace) return
     const operation = currentWorkspace.operation
-    if (engine.cursor.status !== CursorStatus.Normal) {
+    if (engine.cursor.status.value !== CursorStatus.Normal) {
       operation.hover.clear()
       return
     }

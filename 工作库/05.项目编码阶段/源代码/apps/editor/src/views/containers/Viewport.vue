@@ -23,10 +23,7 @@ export default defineComponent({
     AuxToolWidget,
   },
   props: {
-    placeholder: {
-      type: String,
-      default: "",
-    },
+    placeholder: {},
     dragTipsDirection: {
       type: String,
       default: "",
@@ -50,7 +47,7 @@ export default defineComponent({
       }
       if (frameElement) {
         frameElement.addEventListener("load", () => {
-          viewportHookRef.value.onMount(
+          frameElement.contentWindow && viewportHookRef.value.onMount(
             frameElement,
             frameElement.contentWindow
           );
@@ -60,7 +57,7 @@ export default defineComponent({
           });
         });
       } else {
-        viewportHookRef.value.onMount(ref.value, window);
+        ref.value && viewportHookRef.value.onMount(ref.value, window);
         requestIdle(() => {
           isFrameRef.value = false;
           loaded.value = true;

@@ -1,7 +1,6 @@
 import { useTree, usePrefix, IconWidget } from 'fusion-renderer'
 import './styles.less'
 import { defineComponent } from 'vue'
-import { isComment } from 'element-plus/es/utils/index'
 
 export interface IEmptyWidgetProps {
   dragTipsDirection?: 'left' | 'right'
@@ -49,11 +48,10 @@ const EmptyWidgetComponent = defineComponent({
           </div>
         )
       }
-      const emptyContent = slots.default?.()
-      if (!treeRef.value?.children?.length) {
+      if (!treeRef.value?.children.value?.length) {
         return (
           <div class={prefixRef.value}>
-            {!emptyContent?.every(isComment) ? emptyContent : renderEmpty()}
+            {renderEmpty()}
           </div>
         )
       }

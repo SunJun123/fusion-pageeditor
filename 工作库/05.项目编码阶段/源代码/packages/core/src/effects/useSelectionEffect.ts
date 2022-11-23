@@ -4,7 +4,7 @@ import { KeyCode, Point } from '../shared'
 
 export const useSelectionEffect = (engine: Engine) => {
   engine.subscribeTo(MouseClickEvent, (event) => {
-    if (engine.cursor.status !== CursorStatus.Normal) return
+    if (engine.cursor.status.value !== CursorStatus.Normal) return
     const target: HTMLElement = event.data.target as any
     const el = target?.closest?.(`*[${engine.props.nodeIdAttrName}],*[${engine.props.outlineNodeIdAttrName}]`)
     const isHelpers = target?.closest?.(

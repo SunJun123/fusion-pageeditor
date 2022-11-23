@@ -32,7 +32,7 @@ export const TreeNodeWidgetComponent =
         const node = props.node!
         // default slot
         const renderChildren = () => {
-          return node?.children?.filter(child => {
+          return node?.children.value?.filter(child => {
             const slot = child.props?.['x-slot']
             return !slot || slot === 'default'
           })?.map((child) => {
@@ -42,7 +42,7 @@ export const TreeNodeWidgetComponent =
         // 支持 x-slot
         const renderSlots = () => {
           if (node?.designerProps?.selfRenderChildren) return []
-          const result = node?.children?.reduce((buffer, child) => {
+          const result = node?.children.value?.reduce((buffer, child) => {
             const slot = child.props?.['x-slot']
             if (slot) {
               if (!buffer[slot]) buffer[slot] = []
@@ -68,7 +68,6 @@ export const TreeNodeWidgetComponent =
         const renderComponent = () => {
           const componentName = node.name
           const Component = componentsRef.value?.[componentName]
-          console.log(componentName,Component)
           const dataId = {Component}
           if (Component) {
             if (designerRef.value) {
@@ -81,7 +80,7 @@ export const TreeNodeWidgetComponent =
               </Component>
             )
           } else {
-            if (node?.children?.length) {
+            if (node?.children.value?.length) {
               return <>{renderChildren()}</>
             }
           }
@@ -102,7 +101,6 @@ observer(defineComponent({
         const treeRef = useTree()
         const prefixRef = usePrefix('component-tree')
         const designerRef = useDesigner()
-        designerRef.value.setCurrentTree(treeJson)
         GlobalRegistry.registerDesignerBehaviors(props.components!)
         provide(DesignerComponentsSymbol, toRef(props, 'components'))
 

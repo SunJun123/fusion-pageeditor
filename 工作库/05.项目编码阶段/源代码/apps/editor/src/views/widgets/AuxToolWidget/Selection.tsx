@@ -11,7 +11,7 @@ import {
 import { ResizeHandler } from './ResizeHandler'
 import { observer } from 'fusion-reactive-vue'
 import { TreeNode } from 'fusion-core'
-import { defineComponent,CSSProperties, toRef } from 'vue'
+import { defineComponent,CSSProperties, toRef, watch, watchEffect } from 'vue'
 import { composeExport,isNum } from 'fusion-utils'
 import { TranslateHandler } from './TranslateHandler'
 export interface ISelectionBoxProps {
@@ -27,8 +27,7 @@ export const SelectionBox = defineComponent({
     const designerRef = useDesigner()
     const prefixRef = usePrefix('aux-selection-box')
     const innerPrefixRef = usePrefix('aux-selection-box-inner')
-    const nodeRectRef = useValidNodeOffsetRect(props.node)
-
+    const nodeRectRef = useValidNodeOffsetRect(toRef(props,"node"))
     return () => {
       const innerPrefix = innerPrefixRef.value
       const designer = designerRef.value
@@ -93,7 +92,7 @@ const SelectionComponent = observer(
           return null
         return (
           <>
-            {selectionRef.value.selected.map((id) => {
+            {selectionRef.value.selected.value.map((id) => {
               const node = treeRef.value.findById(id)
               if (!node) return
               if (node.hidden) return
@@ -102,7 +101,7 @@ const SelectionComponent = observer(
                   {...{
                     key: id,
                     node: node,
-                    showHelpers: selectionRef.value.selected.length === 1,
+                    showHelpers: selectionRef.value.selected.value.length === 1,
                   }}
                   key={id}
                 />

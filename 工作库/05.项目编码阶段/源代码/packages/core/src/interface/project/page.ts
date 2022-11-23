@@ -1,3 +1,4 @@
+import { ShallowRef, shallowRef } from "vue";
 import { FromNodeEvent } from "../../events";
 import { useTreeNodes } from "../../hooks/useTreeNodes";
 import { ITreeNode, TreeNode } from "../../models/TreeNode";
@@ -128,7 +129,7 @@ export interface dataSourcesType {
 export interface IPage extends ITreeNode{}
 const TreeNodes = useTreeNodes();
 export class Page extends TreeNode{
-  children: Element[] = [];
+  children = shallowRef([]) as ShallowRef<Element[]>;
   constructor(node?: ITreeNode, parent?: TreeNode){
     super(node,parent)
     if (node) {
@@ -153,8 +154,8 @@ export class Page extends TreeNode{
         }
         this.props = node.props ?? {};
         if (node.children) {
-          this.children =
-            node.children?.map?.((node) => {
+          this.children.value =
+            node.children.value?.map?.((node) => {
               return new Element(node, this);
             }) || [];
         }
@@ -173,9 +174,9 @@ export class Page extends TreeNode{
       name,
       sourceName,
       props,
-      children: this.children.map((element) => {
+      children: shallowRef(this.children.value.map((element) => {
         return element.serialize();
-      }),
+      })),
     };
   }
 

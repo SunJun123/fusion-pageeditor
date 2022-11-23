@@ -22,6 +22,7 @@ import {
 import { GlobalRegistry } from "../registry";
 import { useTreeNodes } from "../hooks/useTreeNodes";
 import { mergeLocales } from "../internals";
+import { isRef, ShallowReactive, shallowRef, ShallowRef } from "vue";
 
 export interface ITreeNode {
   id: string;
@@ -37,7 +38,7 @@ export interface ITreeNode {
   props: Record<string | number | symbol, any>;
 
   /** 若是容器組件，则有子节点，子节点多一个slotName键 */
-  children?: ITreeNode[];
+  children?: ShallowRef<ITreeNode[]>;
 
   operation?: Operation;
 
@@ -56,7 +57,7 @@ const CommonDesignerPropsMap = new Map<string, IDesignerControllerProps>();
 
 const removeNode = (node: TreeNode) => {
   if (node.parent) {
-    node.parent.children = node.parent.children.filter(
+    node.parent.children.value = node.parent.children.value.filter(
       (child) => child !== node
     );
   }
@@ -65,7 +66,7 @@ const removeNode = (node: TreeNode) => {
 const resetNodesParent = (nodes: TreeNode[], parent: TreeNode) => {
   const resetDepth = (node: TreeNode) => {
     node.depth = node.parent ? node.parent.depth + 1 : 0;
-    node.children.forEach(resetDepth);
+    node.children.value.forEach(resetDepth);
   };
 
   const shallowReset = (node: TreeNode) => {
@@ -76,7 +77,7 @@ const resetNodesParent = (nodes: TreeNode[], parent: TreeNode) => {
 
   const deepReset = (node: TreeNode) => {
     shallowReset(node);
-    resetNodesParent(node.children, node);
+    resetNodesParent(node.children.value, node);
   };
 
   return nodes.map((node) => {
@@ -142,7 +143,7 @@ export class TreeNode implements ITreeNode {
 
   props: ITreeNode["props"] = {};
 
-  children: TreeNode[] = [];
+  children = shallowRef([]) as ShallowRef<TreeNode[]>;
 
   isSelfSourceNode: boolean;
 
@@ -167,20 +168,6 @@ export class TreeNode implements ITreeNode {
       this.from(node)
     }
   }
-
-/*   get designerProps(): IDesignerProps {
-    
-    return {
-      "draggable": true,
-      "cloneable": true,
-      "deletable": true,
-      "droppable": true,
-      "defaultProps": {
-          "labelCol": 6,
-          "wrapperCol": 12
-      }
-  };
-  } */
 
   get designerProps(): IDesignerProps {
     const behaviors = GlobalRegistry.getDesignerBehaviors(this)
@@ -207,28 +194,28 @@ export class TreeNode implements ITreeNode {
 
   get previous() {
     if (this.parent === this || !this.parent) return;
-    return this.parent.children[this.index - 1];
+    return this.parent.children.value[this.index - 1];
   }
 
   get next() {
     if (this.parent === this || !this.parent) return;
-    return this.parent.children[this.index + 1];
+    return this.parent.children.value[this.index + 1];
   }
 
   get siblings() {
     if (this.parent) {
-      return this.parent.children.filter((node) => node !== this);
+      return this.parent.children.value.filter((node) => node !== this);
     }
     return [];
   }
 
   get index() {
     if (this.parent === this || !this.parent) return 0;
-    return this.parent.children.indexOf(this);
+    return this.parent.children.value.indexOf(this);
   }
 
   get descendants(): TreeNode[] {
-    return this.children.reduce((buf, node) => {
+    return this.children.value.reduce((buf, node) => {
       return buf.concat(node).concat(node.descendants);
     }, []);
   }
@@ -242,7 +229,7 @@ export class TreeNode implements ITreeNode {
   }
 
   get lastChild() {
-    return this.children[this.children.length - 1];
+    return this.children[this.children.value.length - 1];
   }
 
   get firstChild() {
@@ -469,7 +456,7 @@ export class TreeNode implements ITreeNode {
   findById(id: string|number) {
     if (!id) return;
     if (this.id === id) return this;
-    if (this.children?.length > 0) {
+    if (this.children.value?.length > 0) {
       return TreeNodes.get(id.toString());
     }
   }
@@ -496,7 +483,7 @@ export class TreeNode implements ITreeNode {
 
   eachChildren(callback?: (node: TreeNode) => void | boolean) {
     if (isFn(callback)) {
-      for (let i = 0; i < this.children.length; i++) {
+      for (let i = 0; i < this.children.value.length; i++) {
         const node = this.children[i];
         if (callback(node) === false) return;
         node.eachChildren(callback);
@@ -539,7 +526,7 @@ export class TreeNode implements ITreeNode {
         source: newNodes,
       }),
       () => {
-        this.children = newNodes.concat(this.children);
+        this.children.value = newNodes.concat(this.children.value);
         return newNodes;
       },
       []
@@ -558,7 +545,7 @@ export class TreeNode implements ITreeNode {
         source: newNodes,
       }),
       () => {
-        this.children = this.children.concat(newNodes);
+        this.children.value = this.children.value.concat(newNodes);
         return newNodes;
       },
       []
@@ -584,7 +571,7 @@ export class TreeNode implements ITreeNode {
   insertAfter(...nodes: TreeNode[]) {
     const parent = this.parent;
     if (nodes.some((node) => node.contains(this))) return [];
-    if (parent?.children?.length) {
+    if (parent?.children.value?.length) {
       const originSourceParents = nodes.map((node) => node.parent);
       const newNodes = this.resetNodesParent(nodes, parent);
       if (!newNodes.length) return [];
@@ -596,7 +583,7 @@ export class TreeNode implements ITreeNode {
           source: newNodes,
         }),
         () => {
-          parent.children = parent.children.reduce((buf, node) => {
+          parent.children.value = parent.children.value.reduce((buf, node) => {
             if (node === this) {
               return buf.concat([node]).concat(newNodes);
             } else {
@@ -614,7 +601,7 @@ export class TreeNode implements ITreeNode {
   insertBefore(...nodes: TreeNode[]) {
     const parent = this.parent;
     if (nodes.some((node) => node.contains(this))) return [];
-    if (parent?.children?.length) {
+    if (parent?.children.value?.length) {
       const originSourceParents = nodes.map((node) => node.parent);
       const newNodes = this.resetNodesParent(nodes, parent);
       if (!newNodes.length) return [];
@@ -625,7 +612,7 @@ export class TreeNode implements ITreeNode {
           source: newNodes,
         }),
         () => {
-          parent.children = parent.children.reduce((buf, node) => {
+          parent.children.value = parent.children.value.reduce((buf, node) => {
             if (node === this) {
               return buf.concat(newNodes).concat([node]);
             } else {
@@ -642,7 +629,7 @@ export class TreeNode implements ITreeNode {
 
   insertChildren(start: number, ...nodes: TreeNode[]) {
     if (nodes.some((node) => node.contains(this))) return [];
-    if (this.children?.length) {
+    if (this.children.value?.length) {
       const originSourceParents = nodes.map((node) => node.parent);
       const newNodes = this.resetNodesParent(nodes, this);
       if (!newNodes.length) return [];
@@ -653,7 +640,7 @@ export class TreeNode implements ITreeNode {
           source: newNodes,
         }),
         () => {
-          this.children = this.children.reduce((buf, node, index) => {
+          this.children.value = this.children.value.reduce((buf, node, index) => {
             if (index === start) {
               return buf.concat(newNodes).concat([node]);
             }
@@ -677,19 +664,11 @@ export class TreeNode implements ITreeNode {
         source: newNodes,
       }),
       () => {
-        this.children = newNodes;
+        this.children.value = newNodes;
         return newNodes;
       },
       []
     );
-  }
-
-  /**
-   * @deprecated
-   * please use `setChildren`
-   */
-  setNodeChildren(...nodes: TreeNode[]) {
-    return this.setChildren(...nodes);
   }
 
   remove() {
@@ -717,12 +696,12 @@ export class TreeNode implements ITreeNode {
         name,
         sourceName,
         props,
-        children: [],
+        children: shallowRef([]),
       },
       parent ? parent : this.parent
     );
-    newNode.children = resetNodesParent(
-      this.children.map((child) => {
+    newNode.children.value = resetNodesParent(
+      this.children.value.map((child) => {
         return child.clone(newNode);
       }),
       newNode
@@ -754,8 +733,8 @@ export class TreeNode implements ITreeNode {
         }
         this.props = node.props ?? {};
         if (node.children) {
-          this.children =
-            node.children?.map?.((node) => {
+          this.children.value =
+            node.children.value?.map?.((node) => {
               return new TreeNode(node, this);
             }) || [];
         }
@@ -775,9 +754,9 @@ export class TreeNode implements ITreeNode {
       name,
       sourceName,
       props,
-      children: this.children.map((treeNode) => {
+      children: shallowRef(this.children.value.map((treeNode) => {
         return treeNode.serialize();
-      }),
+      })),
     };
   }
 
@@ -895,7 +874,7 @@ export class TreeNode implements ITreeNode {
         return transformed ? buf.concat(transformed) : buf;
       }
       if (node.name === "$$ResourceNode$$")
-        return buf.concat(node);
+        return buf.concat(node.children.value);
       return buf.concat([node]);
     }, []);
   }
@@ -909,7 +888,7 @@ export class TreeNode implements ITreeNode {
         return transformed ? buf.concat(transformed) : buf;
       }
       if (node.name === "$$ResourceNode$$")
-        return buf.concat(node);
+        return buf.concat(node.children.value);
       return buf.concat([node]);
     }, []);
   }

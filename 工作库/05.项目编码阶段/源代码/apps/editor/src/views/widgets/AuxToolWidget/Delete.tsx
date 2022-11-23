@@ -11,7 +11,6 @@ import { TreeNode } from 'fusion-core'
 const DeleteComponent = defineComponent({
   props: ['node'],
   setup(props) {
-    const operationRef = useOperation()
     const prefixRef = usePrefix('aux-copy')
     return () => {
       if (props.node === props.node.root) return null

@@ -1,12 +1,14 @@
 <template>
   <Layout :theme="theme" :prefix-cls="prefixCls">
     <slot></slot>
+    <GhostWidget></GhostWidget>
   </Layout>
 </template>
 <script lang="ts">
 import { Engine, GlobalRegistry } from "fusion-core";
 import { DesignerEngineSymbol , IDesignerProps} from "fusion-renderer";
 import Layout from "./Layout.vue";
+import {GhostWidget} from "@/views/widgets/GhostWidget";
 import * as icons from '@/assets/icons';
 import {
   defineComponent,
@@ -22,6 +24,7 @@ export default defineComponent({
   name: "Designer",
   components: {
     Layout,
+    GhostWidget
   },
   props: {
     engine: {

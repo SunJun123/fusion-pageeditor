@@ -1,5 +1,6 @@
 import { Engine } from './Engine'
 import { globalThisPolyfill, isValidNumber } from '../shared'
+import { reactive, Ref, ref } from 'vue'
 
 export enum CursorStatus {
   Normal = 'NORMAL',
@@ -96,9 +97,9 @@ export class Cursor {
 
   dragType: CursorDragType | string = CursorDragType.Move
 
-  status: CursorStatus = CursorStatus.Normal
+  status =  ref(CursorStatus.Normal) as Ref<CursorStatus>
 
-  position: ICursorPosition = DEFAULT_POSITION
+  position =  ref(DEFAULT_POSITION) as Ref<ICursorPosition>
 
   dragStartPosition: ICursorPosition
 
@@ -124,7 +125,7 @@ export class Cursor {
   }
 
   setStatus(status: CursorStatus) {
-    this.status = status
+    this.status.value = status
   }
 
   setType(type: CursorType | string) {
@@ -142,11 +143,11 @@ export class Cursor {
   }
 
   setPosition(position?: ICursorPosition) {
-    this.dragAtomDelta = calcPositionDelta(this.position, position)
-    this.position = { ...position, }
-    if (this.status === CursorStatus.Dragging) {
+    this.dragAtomDelta = calcPositionDelta(this.position.value, position)
+    this.position.value = { ...position, }
+    if (this.status.value === CursorStatus.Dragging) {
       this.dragStartToCurrentDelta = calcPositionDelta(
-        this.position,
+        this.position.value,
         this.dragStartPosition
       )
     }

@@ -15,7 +15,7 @@ export const useAutoScrollEffect = (engine: Engine) => {
   let yScrollerAnimationStop = null
 
   const scrolling = (point: IPoint, viewport: Viewport) => {
-    if (engine.cursor.status === CursorStatus.Dragging) {
+    if (engine.cursor.status.value === CursorStatus.Dragging) {
       xScroller = calcAutoScrollBasicInfo(point, 'x', viewport.rect)
       yScroller = calcAutoScrollBasicInfo(point, 'y', viewport.rect)
       if (xScroller) {

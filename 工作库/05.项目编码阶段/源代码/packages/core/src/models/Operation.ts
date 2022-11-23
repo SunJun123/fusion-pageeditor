@@ -36,11 +36,11 @@ export class Operation {
   constructor(workspace: Workspace) {
     this.engine = workspace.engine
     this.workspace = workspace
-    this.tree = reactive(new Page({
+    this.tree = new Page({
       name: this.engine.props.rootComponentName,
       ...this.engine.props.defaultComponentTree,
       operation: this,
-    }))
+    })
     this.hover = new Hover({
       operation: this,
     })
@@ -80,7 +80,7 @@ export class Operation {
       this.tree.from(operation.tree)
     }
     if (operation.selected) {
-      this.selection.selected = operation.selected
+      this.selection.selected.value = operation.selected
     }
   }
 

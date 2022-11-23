@@ -12,6 +12,7 @@ import {
   ViewportScrollEvent
 } from '../events'
 import { Point } from '../shared'
+import { isRef } from 'vue'
 
 export const useDragDropEffect = (engine: Engine) => {
   engine.subscribeTo(DragStartEvent, (event) => {

@@ -2,6 +2,7 @@ import { ITreeNode, TreeNode } from "../../models/TreeNode";
 import { useTreeNodes } from "../../hooks/useTreeNodes";
 import {ITreeNodeMethodParam} from "./projectParam";
 import { FromNodeEvent } from "../../events/mutation/FromNodeEvent";
+import { shallowRef, ShallowRef } from "vue";
 export interface EventsMethods {
 
   // 名称
@@ -88,13 +89,13 @@ export interface ITreeNodeFilter {
   name: string;
 
   /** 若是容器組件，则有子节点，子节点多一个slotName键 */
-  children?: Element[];
+  children?: ShallowRef<Element[]>;
 }
 export interface IElement extends ITreeNode{}
 const TreeNodes = useTreeNodes();
 export class Element extends TreeNode {
 
-  children: Element[] = [];
+  children = shallowRef([]) as ShallowRef<Element[]>;
 
   constructor(node?: ITreeNode, parent?: TreeNode) {
     super(node,parent)
@@ -119,9 +120,9 @@ export class Element extends TreeNode {
           this.name = node.name;
         }
         this.props = node.props ?? {};
-        if (node.children) {
-          this.children =
-            node.children?.map?.((node) => {
+        if (node.children.value) {
+          this.children.value =
+            node.children.value?.map?.((node) => {
               return new Element(node, this);
             }) || [];
         }
@@ -140,9 +141,9 @@ export class Element extends TreeNode {
       name,
       sourceName,
       props,
-      children: this.children.map((element) => {
+      children: shallowRef(this.children.value.map((element) => {
         return element.serialize();
-      }),
+      })),
     };
   }
 }

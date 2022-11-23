@@ -5,7 +5,7 @@ import {
   useSelection,
 } from 'fusion-renderer'
 import { observer } from 'fusion-reactive-vue'
-import { defineComponent } from 'vue'
+import { computed, defineComponent, watch } from 'vue'
 import { isNum,composeExport } from 'fusion-utils'
 
 const DashBox = observer(
@@ -15,11 +15,10 @@ const DashBox = observer(
       const hoverRef = useHover()
       const prefixRef = usePrefix('aux-dashed-box')
       const selectionRef = useSelection()
-
       let rectRef = useValidNodeOffsetRect(hoverRef.value?.node)
 
       return () => {
-        const rect = rectRef
+        const rect = rectRef.value
         const createTipsStyle = () => {
           const baseStyle: any = {
             top: 0,
@@ -39,9 +38,9 @@ const DashBox = observer(
           }
           return baseStyle
         }
-        if (!hoverRef.value.node) return null
-        if (hoverRef.value.node.hidden) return null
-        if (selectionRef.value.selected.includes(hoverRef.value.node.id))
+        if (!hoverRef.value.node.value) return null
+        if (hoverRef.value.node.value.hidden) return null
+        if (selectionRef.value.selected.value.includes(hoverRef.value.node.value.id))
           return null
         return (
           <div class={prefixRef.value} style={createTipsStyle()}>
@@ -57,7 +56,7 @@ const DashBox = observer(
                 whiteSpace: 'nowrap',
               }}
             >
-              {hoverRef.value?.node.getMessage('title')}
+              {hoverRef.value?.node.value.getMessage('title')}
             </span>
           </div>
         )
@@ -75,7 +74,7 @@ export const DashedBox = composeExport(
         return () => {
           return (
             <>
-              <DashBox key={hoverRef.value?.node?.id}></DashBox>
+              <DashBox key={hoverRef.value?.node.value?.id}></DashBox>
             </>
           )
         }
