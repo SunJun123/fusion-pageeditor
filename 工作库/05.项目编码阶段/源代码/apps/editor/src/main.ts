@@ -1,7 +1,5 @@
 import app from "./appInstance";
 import router from "./router";
-import "./assets/less/base.less";
-import "./assets/less/theme.css";
 import "./assets/font/iconfont.css";
 import "./assets/font/iconfont.js";
 import ElementPlus from "element-plus";

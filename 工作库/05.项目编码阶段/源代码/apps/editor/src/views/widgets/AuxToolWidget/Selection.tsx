@@ -86,7 +86,7 @@ const SelectionComponent = observer(
       const viewportDragonRef = useMoveHelper()
       return () => {
         if (
-          cursorRef.value.status !== 'NORMAL' &&
+          cursorRef.value.status.value !== 'NORMAL' &&
           viewportDragonRef.touchNode
         )
           return null
@@ -95,7 +95,7 @@ const SelectionComponent = observer(
             {selectionRef.value.selected.value.map((id) => {
               const node = treeRef.value.findById(id)
               if (!node) return
-              if (node.hidden) return
+              if (node.hidden.value) return
               return (
                 <SelectionBox
                   {...{

@@ -11,6 +11,7 @@ import {
 import { DragNodeEvent, DropNodeEvent } from '../events'
 import { Viewport } from './Viewport'
 import { CursorDragType } from './Cursor'
+import { Ref, ref, shallowRef, ShallowRef } from 'vue'
 
 export enum ClosestPosition {
   Before = 'BEFORE',
@@ -51,11 +52,11 @@ export class MoveHelper {
 
   rootNode: TreeNode
 
-  dragNodes: TreeNode[] = []
+  dragNodes = shallowRef([]) as ShallowRef<TreeNode[]>
 
   touchNode: TreeNode = null
 
-  closestNode: TreeNode = null
+  closestNode = shallowRef(null) as ShallowRef<TreeNode>
 
   activeViewport: Viewport = null
 
@@ -63,13 +64,13 @@ export class MoveHelper {
 
   outlineClosestRect: Rect = null
 
-  viewportClosestOffsetRect: Rect = null
+  viewportClosestOffsetRect = ref(null) as Ref<Rect>
 
-  outlineClosestOffsetRect: Rect = null
+  outlineClosestOffsetRect  = ref(null) as Ref<Rect>
 
-  viewportClosestDirection: ClosestPosition = null
+  viewportClosestDirection = ref(null) as Ref<ClosestPosition>
 
-  outlineClosestDirection: ClosestPosition = null
+  outlineClosestDirection = ref(null) as Ref<ClosestPosition>
 
   dragging = false
 
@@ -91,22 +92,22 @@ export class MoveHelper {
   }
 
   get hasDragNodes() {
-    return this.dragNodes.length > 0
+    return this.dragNodes.value.length > 0
   }
 
   get closestDirection() {
     if (this.activeViewport === this.outline) {
-      return this.outlineClosestDirection
+      return this.outlineClosestDirection.value
     }
-    return this.viewportClosestDirection
+    return this.viewportClosestDirection.value
   }
 
   getClosestLayout(viewport: Viewport) {
-    return viewport.getValidNodeLayout(this.closestNode)
+    return viewport.getValidNodeLayout(this.closestNode.value)
   }
 
   calcClosestPosition(point: IPoint, viewport: Viewport): ClosestPosition {
-    const closestNode = this.closestNode
+    const closestNode = this.closestNode.value
     if (!closestNode || !viewport.isPointInViewport(point))
       return ClosestPosition.Forbid
     const closestRect = viewport.getValidNodeRect(closestNode)
@@ -121,12 +122,12 @@ export class MoveHelper {
     )
     const getValidParent = (node: TreeNode) => {
       if (!node) return
-      if (node.parent?.allowSibling(this.dragNodes)) return node.parent
+      if (node.parent?.allowSibling(this.dragNodes.value)) return node.parent
       return getValidParent(node.parent)
     }
     if (isPointInRect(point, closestRect, viewport.moveSensitive)) {
-      if (!closestNode.allowAppend(this.dragNodes)) {
-        if (!closestNode.allowSibling(this.dragNodes)) {
+      if (!closestNode.allowAppend(this.dragNodes.value)) {
+        if (!closestNode.allowSibling(this.dragNodes.value)) {
           const parentClosestNode = getValidParent(closestNode)
           if (parentClosestNode) {
             this.closestNode = parentClosestNode
@@ -162,7 +163,7 @@ export class MoveHelper {
           }
         }
       }
-      if (closestNode.contains(...this.dragNodes)) {
+      if (closestNode.contains(...this.dragNodes.value)) {
         if (isAfter) {
           return ClosestPosition.InnerAfter
         }
@@ -173,7 +174,7 @@ export class MoveHelper {
     } else if (closestNode === closestNode.root) {
       return isAfter ? ClosestPosition.InnerAfter : ClosestPosition.InnerBefore
     } else {
-      if (!closestNode.allowSibling(this.dragNodes)) {
+      if (!closestNode.allowSibling(this.dragNodes.value)) {
         const parentClosestNode = getValidParent(closestNode)
         if (parentClosestNode) {
           this.closestNode = parentClosestNode
@@ -212,7 +213,7 @@ export class MoveHelper {
     if (this.touchNode) {
       const touchNodeRect = viewport.getValidNodeRect(this.touchNode)
       if (!touchNodeRect) return
-      if (this.touchNode?.children?.length) {
+      if (this.touchNode?.children.value?.length) {
         const touchDistance = calcDistancePointToEdge(point, touchNodeRect)
         let minDistance = touchDistance
         let minDistanceNode = this.touchNode
@@ -236,7 +237,7 @@ export class MoveHelper {
   }
 
   calcClosestRect(viewport: Viewport, closestDirection: ClosestPosition): Rect {
-    const closestNode = this.closestNode
+    const closestNode = this.closestNode.value
     if (!closestNode || !closestDirection) return
     const closestRect = viewport.getValidNodeRect(closestNode)
     if (
@@ -253,7 +254,7 @@ export class MoveHelper {
     viewport: Viewport,
     closestDirection: ClosestPosition
   ): Rect {
-    const closestNode = this.closestNode
+    const closestNode = this.closestNode.value
     if (!closestNode || !closestDirection) return
     const closestRect = viewport.getValidNodeOffsetRect(closestNode)
     if (
@@ -269,11 +270,11 @@ export class MoveHelper {
   dragStart(props: IMoveHelperDragStartProps) {
     const nodes = TreeNode.filterDraggable(props?.dragNodes)
     if (nodes.length) {
-      this.dragNodes = nodes
+      this.dragNodes.value = nodes
       this.trigger(
         new DragNodeEvent({
           target: this.operation.tree,
-          source: this.dragNodes,
+          source: this.dragNodes.value,
         })
       )
       this.viewport.cacheElements()
@@ -288,45 +289,45 @@ export class MoveHelper {
     if (this.outline.isPointInViewport(point, false)) {
       this.activeViewport = this.outline
       this.touchNode = touchNode
-      this.closestNode = this.calcClosestNode(point, this.outline)
+      this.closestNode.value = this.calcClosestNode(point, this.outline)
     } else if (this.viewport.isPointInViewport(point, false)) {
       this.activeViewport = this.viewport
       this.touchNode = touchNode
-      this.closestNode = this.calcClosestNode(point, this.viewport)
+      this.closestNode.value = this.calcClosestNode(point, this.viewport)
     }
     if (!this.activeViewport) return
 
     if (this.activeViewport === this.outline) {
-      this.outlineClosestDirection = this.calcClosestPosition(
+      this.outlineClosestDirection.value = this.calcClosestPosition(
         point,
         this.outline
       )
-      this.viewportClosestDirection = this.outlineClosestDirection
+      this.viewportClosestDirection.value = this.outlineClosestDirection.value
     } else {
-      this.viewportClosestDirection = this.calcClosestPosition(
+      this.viewportClosestDirection.value = this.calcClosestPosition(
         point,
         this.viewport
       )
-      this.outlineClosestDirection = this.viewportClosestDirection
+      this.outlineClosestDirection.value = this.viewportClosestDirection.value
     }
     if (this.outline.mounted) {
       this.outlineClosestRect = this.calcClosestRect(
         this.outline,
-        this.outlineClosestDirection
+        this.outlineClosestDirection.value
       )
-      this.outlineClosestOffsetRect = this.calcClosestOffsetRect(
+      this.outlineClosestOffsetRect.value = this.calcClosestOffsetRect(
         this.outline,
-        this.outlineClosestDirection
+        this.outlineClosestDirection.value
       )
     }
     if (this.viewport.mounted) {
       this.viewportClosestRect = this.calcClosestRect(
         this.viewport,
-        this.viewportClosestDirection
+        this.viewportClosestDirection.value
       )
-      this.viewportClosestOffsetRect = this.calcClosestOffsetRect(
+      this.viewportClosestOffsetRect.value = this.calcClosestOffsetRect(
         this.viewport,
-        this.viewportClosestDirection
+        this.viewportClosestDirection.value
       )
     }
   }
@@ -342,15 +343,15 @@ export class MoveHelper {
 
   dragEnd() {
     this.dragging = false
-    this.dragNodes = []
+    this.dragNodes.value = []
     this.touchNode = null
-    this.closestNode = null
+    this.closestNode.value = null
     this.activeViewport = null
-    this.outlineClosestDirection = null
-    this.outlineClosestOffsetRect = null
+    this.outlineClosestDirection.value = null
+    this.outlineClosestOffsetRect.value = null
     this.outlineClosestRect = null
-    this.viewportClosestDirection = null
-    this.viewportClosestOffsetRect = null
+    this.viewportClosestDirection.value = null
+    this.viewportClosestOffsetRect.value = null
     this.viewportClosestRect = null
     this.viewport.clearCache()
   }

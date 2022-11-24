@@ -2,7 +2,6 @@ import { useTree, usePrefix, useDesigner, useComponents,TreeNodeSymbol, Designer
 import { TreeNode, GlobalRegistry, ITreeNode } from 'fusion-core'
 import { observer } from 'fusion-reactive-vue'
 import cls from 'classnames'
-import {treeJson} from "./formData.js"
 import './styles.less'
 import { defineComponent, PropType, provide, VNode, toRef, watch,Component } from 'vue'
 import { composeExport } from 'fusion-utils'
@@ -86,6 +85,7 @@ export const TreeNodeWidgetComponent =
           }
         }
         if (!node) return null
+        if (node.hidden.value) return null
         return renderComponent()
       }
     },

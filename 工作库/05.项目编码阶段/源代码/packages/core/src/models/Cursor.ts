@@ -144,7 +144,13 @@ export class Cursor {
 
   setPosition(position?: ICursorPosition) {
     this.dragAtomDelta = calcPositionDelta(this.position.value, position)
-    this.position.value = { ...position, }
+    const currentPosition:ICursorPosition = {};
+    for (const key in DEFAULT_POSITION) {
+      if (Object.prototype.hasOwnProperty.call(DEFAULT_POSITION, key)) {
+        currentPosition[key] = position[key];
+      }
+    }
+    this.position.value = currentPosition
     if (this.status.value === CursorStatus.Dragging) {
       this.dragStartToCurrentDelta = calcPositionDelta(
         this.position.value,

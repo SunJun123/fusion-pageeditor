@@ -19,7 +19,7 @@ export const HistoryWidget = observer(
                     <div class={prefixRef.value}>
                         {currentWorkspace.history.list().map((item, index) => {
                             const type = item.type || 'default_state'
-                            const token = type.replace(/\:/g, '_')
+                            const token = type.replace(/\\:/g, '_')
                             return (
                                 <div
                                     class={cls(prefixRef.value + '-item', {

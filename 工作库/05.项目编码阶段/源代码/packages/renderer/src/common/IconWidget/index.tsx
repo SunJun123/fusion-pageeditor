@@ -12,7 +12,6 @@ import {
   ref,
   unref,
   VNode,
-  PropType,
   isVNode,
 } from "vue";
 import cls from "classnames";
@@ -38,14 +37,13 @@ export interface IIconWidgetProps extends HTMLElement {
 export const IconWidget = defineComponent({
   name: "IconWidget",
   inheritAttrs: false,
-  props:["tooltip","infer","size"],
+  props: ["tooltip","infer","size"],
   emits: ["click"],
   setup(props, { attrs, emit }) {
     const themeRef = useTheme();
     const IconContextRef: Ref<IconProviderProps> = useContext(IconSymbol);
     const registry = useRegistry();
     const prefixRef = usePrefix("icon");
-    alert
     return () => {
       const size = isNumSize(props.size)
         ? `${props.size}px`

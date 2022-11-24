@@ -5,20 +5,6 @@
         <template #logo>
           <LogoWidget></LogoWidget>
         </template>
-        <!-- <SiderBarTabPanel #="soltProps">
-          <SiderBarPanel title="组件" icon="Component">
-            <ResourceWidget
-              v-if="soltProps?.activeKey == 0"
-              :component-category-list="materialList"
-            ></ResourceWidget>
-          </SiderBarPanel>
-          <SiderBarPanel title="大纲树" icon="Outline">
-            <div v-if="soltProps?.activeKey == 1">大纲树</div>
-          </SiderBarPanel>
-          <SiderBarPanel title="历史记录" icon="History">
-            <div v-if="soltProps?.activeKey == 2">历史记录</div>
-          </SiderBarPanel>
-        </SiderBarTabPanel> -->
         <CompositePanel>
           <CompositePanelItem title="panels.Component" icon="Component">
             <ResourceWidget
@@ -26,6 +12,7 @@
             ></ResourceWidget>
           </CompositePanelItem>
           <CompositePanelItem title="panels.OutlinedTree" icon="Outline">
+            <OutlineTreeWidget></OutlineTreeWidget>
           </CompositePanelItem>
           <CompositePanelItem title="panels.History" icon="History">
             <HistoryWidget></HistoryWidget>
@@ -48,20 +35,17 @@ import "./panels/styles.less";
 import Designer from "./containers/Designer.vue";
 import Workbench from "./containers/Workbench.vue";
 import StudioPanel from "./panels/StudioPanel.vue";
-import SiderBarTabPanel from "./panels/SiderBarTabPanel.vue";
 import WorkspacePanel from "./panels/WorkspacePanel.vue";
 import ViewportPanel from "./panels/ViewportPanel.vue";
 import ViewPanel from "./panels/ViewPanel.vue";
-import SiderBarPanel from "./panels/SiderBarPanel.vue";
 import {ComponentTreeWidget} from "./widgets/ComponentTreeWidget";
 import ResourceWidget from "./widgets/ResourceWidget/index.vue";
 import LogoWidget from "./widgets/LogoWidget/index.vue";
 import {CompositePanel,CompositePanelItem} from "./panels/CompositePanel"
+import {OutlineTreeWidget} from "./widgets/OutlineWidget"
 import {HistoryWidget} from "./widgets/HistoryWidget"
-import { createDesigner, GlobalRegistry} from "fusion-core";
+import { createDesigner} from "fusion-core";
 import { defineComponent, Ref, ref } from "vue";
-import {Element} from "fusion-core"
-import { IComponentCategoryListType } from "@/interface";
 import {
   Form,
   Field,
@@ -81,6 +65,7 @@ export default defineComponent({
     ResourceWidget,
     LogoWidget,
     HistoryWidget,
+    OutlineTreeWidget,
   },
   setup() {
     const engine = createDesigner({

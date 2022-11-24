@@ -2,13 +2,8 @@ import { usePrefix,IconWidget } from 'fusion-renderer'
 import { defineComponent } from 'vue'
 import { composeExport,useStyle } from 'fusion-utils'
 import { TreeNode } from 'fusion-core'
-import { observer } from 'fusion-reactive-vue'
-// export interface ICopyProps {
-//   node: TreeNode
-//   style?: React.CSSProperties
-// }
 
-const CopyComponent =observer(defineComponent({
+const CopyComponent = defineComponent({
   name: 'CopyComponent',
   props: ['node'],
   setup(props) {
@@ -29,6 +24,6 @@ const CopyComponent =observer(defineComponent({
       )
     }
   },
-}))
+})
 
 export const Copy = composeExport(CopyComponent, { displayName: 'Copy' })

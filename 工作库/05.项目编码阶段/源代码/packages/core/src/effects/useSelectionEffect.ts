@@ -41,7 +41,7 @@ export const useSelectionEffect = (engine: Engine) => {
         engine.keyboard.isKeyDown(KeyCode.Control)
       ) {
         if (selection.has(node)) {
-          if (selection.selected.length > 1) {
+          if (selection.selected.value.length > 1) {
             selection.remove(node)
           }
         } else {
@@ -49,7 +49,7 @@ export const useSelectionEffect = (engine: Engine) => {
         }
       } else if (engine.keyboard.isKeyDown(KeyCode.Shift)) {
         if (selection.has(node)) {
-          if (selection.selected.length > 1) {
+          if (selection.selected.value.length > 1) {
             selection.remove(node)
           }
         } else {

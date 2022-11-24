@@ -1,23 +1,22 @@
 import { useMoveHelper, usePrefix } from 'fusion-renderer'
 import { ClosestPosition } from 'fusion-core'
-import { observer } from 'fusion-reactive-vue'
 import { composeExport } from 'fusion-utils'
-import { defineComponent } from 'vue'
+import { defineComponent, unref, watch } from 'vue'
 import { isNum } from 'fusion-utils'
 
-export const InsertionComponent = observer(
+export const InsertionComponent =
   defineComponent({
     name: 'Insertion',
     props: [],
     setup() {
       const moveHelper = useMoveHelper()
       const prefix = usePrefix('aux-insertion')
-
       return () => {
         const createInsertionStyle = (): any => {
-          const closestDirection = moveHelper.viewportClosestDirection
-    const closestRect = moveHelper.viewportClosestOffsetRect
-    const isInlineLayout = moveHelper.closestNode?.moveLayout === 'horizontal'
+          const closestDirection = unref(moveHelper.viewportClosestDirection)
+
+          const closestRect = unref(moveHelper.viewportClosestOffsetRect)
+          const isInlineLayout = moveHelper.closestNode.value?.moveLayout === 'horizontal'
           const baseStyle: any = {
             position: 'absolute',
             transform: 'perspective(1px) translate3d(0,0,0)',
@@ -86,7 +85,6 @@ export const InsertionComponent = observer(
       }
     },
   })
-)
 
 export const Insertion = composeExport(InsertionComponent, {
   displayName: 'Insertion',

@@ -23,8 +23,8 @@ export const FreeSelection = observer(
             y: cursor.dragStartPosition.topClientY as number,
           })
           const currentPoint = viewport.getOffsetPoint({
-            x: cursor.position.topClientX as number,
-            y: cursor.position.topClientY as number,
+            x: cursor.position.value.topClientX as number,
+            y: cursor.position.value.topClientY as number,
           })
           const rect = calcRectByStartEndPoint(
             startDragPoint,
@@ -51,7 +51,7 @@ export const FreeSelection = observer(
         }
 
         if (
-          cursorRef.value.status !== CursorStatus.Dragging ||
+          cursorRef.value.status.value !== CursorStatus.Dragging ||
           cursorRef.value.type !== CursorType.Selection
         )
           return null

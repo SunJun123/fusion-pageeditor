@@ -33,12 +33,12 @@ const CoverRect = defineComponent({
           left: 0,
           pointerEvents: 'none',
         }
-        if (rect) {
-          baseStyle.transform = `perspective(1px) translate3d(${rect.x}px,${rect.y}px,0)`
-          baseStyle.height = isNum(rect.height)
-            ? rect.height + 'px'
-            : rect.height
-          baseStyle.width = isNum(rect.width) ? rect.width + 'px' : rect.width
+        if (rect.value) {
+          baseStyle.transform = `perspective(1px) translate3d(${rect.value.x}px,${rect.value.y}px,0)`
+          baseStyle.height = isNum(rect.value.height)
+            ? rect.value.height + 'px'
+            : rect.value.height
+          baseStyle.width = isNum(rect.value.width) ? rect.value.width + 'px' : rect.value.width
         }
         return baseStyle
       }
@@ -64,13 +64,13 @@ const CoverComponent = observer(
       const cursorRef = useCursor()
 
       return () => {
-        if (cursorRef.value.status !== CursorStatus.Dragging) return null
+        if (cursorRef.value.status.value !== CursorStatus.Dragging) return null
 
         const renderDropCover = () => {
           if (
-            !viewportDragonRef.closestNode ||
-            !viewportDragonRef.closestNode?.allowAppend(
-              viewportDragonRef.dragNodes
+            !viewportDragonRef.closestNode.value ||
+            !viewportDragonRef.closestNode.value?.allowAppend(
+              viewportDragonRef.dragNodes.value
             ) ||
             viewportDragonRef.closestDirection !== ClosestPosition.Inner
           )
@@ -79,7 +79,7 @@ const CoverComponent = observer(
             <CoverRect
               {...{
                 dropping: true,
-                node: viewportDragonRef.closestNode,
+                node: viewportDragonRef.closestNode.value,
               }}
             />
           )
@@ -87,7 +87,7 @@ const CoverComponent = observer(
 
         return (
           <>
-            {viewportDragonRef.dragNodes.map((node) => {
+            {viewportDragonRef.dragNodes.value.map((node) => {
               if (!node) return
               if (!viewportRef.value.findElementById(node.id)) return
               return (

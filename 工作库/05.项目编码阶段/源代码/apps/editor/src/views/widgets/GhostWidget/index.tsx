@@ -19,18 +19,14 @@ const GhostWidgetComponent = defineComponent({
           }px,${position.topClientY! - 12}px,0) scale(0.8)`
         if (!ref) return
         ref.style.transform = transform
-      },{
-        deep: true
-      },
+      }
     )
 
     return () => {
       const designer = unref(designerRef)
-      const cursor = unref(cursorRef)
 
       const draggingNodes = designer.findMovingNodes()
       const firstNode = draggingNodes[0]
-
       const renderNodes = () => {
         return (
           <span
@@ -46,7 +42,7 @@ const GhostWidgetComponent = defineComponent({
 
       if (!firstNode) return null
 
-      return cursor.status.value === CursorStatus.Dragging ? (
+      return cursorRef.value.status.value === CursorStatus.Dragging ? (
         <div class={prefixRef.value} ref={refInstance}>
           {renderNodes()}
         </div>

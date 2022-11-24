@@ -75,7 +75,7 @@ export const useDragDropEffect = (engine: Engine) => {
     engine.workbench.eachWorkspace((currentWorkspace) => {
       const operation = currentWorkspace.operation
       const moveHelper = operation.moveHelper
-      const dragNodes = moveHelper.dragNodes
+      const dragNodes = moveHelper.dragNodes.value
       const tree = operation.tree
       if (!dragNodes.length) return
       const touchNode = tree.findById(outlineId || nodeId)
@@ -90,15 +90,15 @@ export const useDragDropEffect = (engine: Engine) => {
     if (engine.cursor.type !== CursorType.Normal) return
     if (engine.cursor.dragType !== CursorDragType.Move) return
     const point = new Point(
-      engine.cursor.position.topClientX,
-      engine.cursor.position.topClientY
+      engine.cursor.position.value.topClientX,
+      engine.cursor.position.value.topClientY
     )
     const currentWorkspace =
       event?.context?.workspace ?? engine.workbench.activeWorkspace
     if (!currentWorkspace) return
     const operation = currentWorkspace.operation
     const moveHelper = operation.moveHelper
-    if (!moveHelper.dragNodes.length) return
+    if (!moveHelper.dragNodes.value.length) return
     const tree = operation.tree
     const viewport = currentWorkspace.viewport
     const outline = currentWorkspace.outline
@@ -128,8 +128,8 @@ export const useDragDropEffect = (engine: Engine) => {
     engine.workbench.eachWorkspace((currentWorkspace) => {
       const operation = currentWorkspace.operation
       const moveHelper = operation.moveHelper
-      const dragNodes = moveHelper.dragNodes
-      const closestNode = moveHelper.closestNode
+      const dragNodes = moveHelper.dragNodes.value
+      const closestNode = moveHelper.closestNode.value
       const closestDirection = moveHelper.closestDirection
       const selection = operation.selection
       if (!dragNodes.length) return

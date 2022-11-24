@@ -22,7 +22,7 @@ import {
 import { GlobalRegistry } from "../registry";
 import { useTreeNodes } from "../hooks/useTreeNodes";
 import { mergeLocales } from "../internals";
-import { isRef, ShallowReactive, shallowRef, ShallowRef } from "vue";
+import {  Ref, ref, shallowRef, ShallowRef } from "vue";
 
 export interface ITreeNode {
   id: string;
@@ -32,7 +32,7 @@ export interface ITreeNode {
   /** 名称 */
   name: string;
 
-  hidden?: boolean
+  hidden?: Ref<boolean>
 
   /** 元素的属性 */
   props: Record<string | number | symbol, any>;
@@ -135,7 +135,7 @@ export class TreeNode implements ITreeNode {
   
   depth = 0;
   
-  hidden = false
+  hidden = ref(false) as Ref<boolean>
 
   name = "NO_NAME_COMPONENT";
 
@@ -309,7 +309,7 @@ export class TreeNode implements ITreeNode {
   }
 
   getMessage(token: string) {
-    return this.name
+    return GlobalRegistry.getDesignerMessage(token, this.designerLocales)
   }
 
   isMyAncestor(node: TreeNode) {
@@ -484,7 +484,7 @@ export class TreeNode implements ITreeNode {
   eachChildren(callback?: (node: TreeNode) => void | boolean) {
     if (isFn(callback)) {
       for (let i = 0; i < this.children.value.length; i++) {
-        const node = this.children[i];
+        const node = this.children.value[i];
         if (callback(node) === false) return;
         node.eachChildren(callback);
       }

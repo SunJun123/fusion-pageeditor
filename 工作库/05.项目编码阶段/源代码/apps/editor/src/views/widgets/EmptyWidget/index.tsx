@@ -48,7 +48,7 @@ const EmptyWidgetComponent = defineComponent({
           </div>
         )
       }
-      if (!treeRef.value?.children.value?.length) {
+      if (!treeRef.value.children.value.length) {
         return (
           <div class={prefixRef.value}>
             {renderEmpty()}

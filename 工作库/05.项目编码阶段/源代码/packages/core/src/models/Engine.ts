@@ -68,7 +68,7 @@ export class Engine extends Event {
   findMovingNodes(): TreeNode[] {
     const results = []
     this.workbench.eachWorkspace((workspace) => {
-      workspace.operation.moveHelper.dragNodes?.forEach((node) => {
+      workspace.operation.moveHelper.dragNodes.value.forEach((node) => {
         if (!results.includes(node)) {
           results.push(node)
         }

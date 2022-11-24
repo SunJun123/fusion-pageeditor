@@ -39,7 +39,7 @@ const DashBox = observer(
           return baseStyle
         }
         if (!hoverRef.value.node.value) return null
-        if (hoverRef.value.node.value.hidden) return null
+        if (hoverRef.value.node.value.hidden.value) return null
         if (selectionRef.value.selected.value.includes(hoverRef.value.node.value.id))
           return null
         return (
